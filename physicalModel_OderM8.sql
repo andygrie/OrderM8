@@ -33,33 +33,6 @@ CREATE TABLE Tables (
   CONSTRAINT pkTables PRIMARY KEY (idTable)
 );
 
-CREATE TABLE OrderEntries (
-  idOrderEntry INTEGER,
-  fkProduct INTEGER,
-  fkTable INTEGER,
-
-  CONSTRAINT pkOrderEntries PRIMARY KEY (idOrderEntry),
-  CONSTRAINT fkOrderEntriesProducts FOREIGN KEY (fkProduct) REFERENCES Products (idProduct),
-  CONSTRAINT fkOrderEntriesTable FOREIGN KEY (fkTable) REFERENCES Tables (idTable)
-);
-
-CREATE TABLE Bills (
-  idBill INTEGER,
-  billDate DATE,
-
-  CONSTRAINT pkBills PRIMARY KEY (idBill)
-);
-
-CREATE TABLE Orders (
-  fkOrderEntry INTEGER,
-  fkBill INTEGER,
-  coupon NUMBER(1,0),
-
-  CONSTRAINT pkOrders PRIMARY KEY (fkOrderEntry, fkBill),
-  CONSTRAINT fkOrdersOrderEntries FOREIGN KEY (fkOrderEntry) REFERENCES OrderEntries (idOrderEntry),
-  CONSTRAINT fkOrdersBills FOREIGN KEY (fkBill) REFERENCES Bills (idBill)
-);
-
 CREATE TABLE Users (
   idUser INTEGER,
   username VARCHAR2(40),
@@ -80,4 +53,34 @@ CREATE TABLE Waiters (
 
   CONSTRAINT pkWaiters PRIMARY KEY (fkUser),
   CONSTRAINT fkWaitersUsers FOREIGN KEY (fkUser) REFERENCES Users (idUser)
+);
+
+CREATE TABLE OrderEntries (
+  idOrderEntry INTEGER,
+  fkProduct INTEGER,
+  fkTable INTEGER,
+  fkUser INTEGER,
+  note VARCHAR2(50),
+
+  CONSTRAINT pkOrderEntries PRIMARY KEY (idOrderEntry),
+  CONSTRAINT fkOrderEntriesProducts FOREIGN KEY (fkProduct) REFERENCES Products (idProduct),
+  CONSTRAINT fkOrderEntriesTables FOREIGN KEY (fkTable) REFERENCES Tables (idTable),
+  CONSTRAINT fkOrderEntriesWaiters FOREIGN KEY (fkUser) REFERENCES Waiters (fkUser)
+);
+
+CREATE TABLE Bills (
+  idBill INTEGER,
+  billDate DATE,
+
+  CONSTRAINT pkBills PRIMARY KEY (idBill)
+);
+
+CREATE TABLE Orders (
+  fkOrderEntry INTEGER,
+  fkBill INTEGER,
+  coupon NUMBER(1,0),
+
+  CONSTRAINT pkOrders PRIMARY KEY (fkOrderEntry, fkBill),
+  CONSTRAINT fkOrdersOrderEntries FOREIGN KEY (fkOrderEntry) REFERENCES OrderEntries (idOrderEntry),
+  CONSTRAINT fkOrdersBills FOREIGN KEY (fkBill) REFERENCES Bills (idBill)
 );
