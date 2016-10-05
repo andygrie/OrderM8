@@ -86,3 +86,110 @@ CREATE TABLE Orders (
   CONSTRAINT fkOrdersOrderEntries FOREIGN KEY (fkOrderEntry) REFERENCES OrderEntries (idOrderEntry),
   CONSTRAINT fkOrdersBills FOREIGN KEY (fkBill) REFERENCES Bills (idBill)
 );
+
+
+-- Test Data --
+INSERT INTO Users (idUser, username, password) VALUES (0, 'thomas', 'sillian');
+INSERT INTO Users (idUser, username, password) VALUES (1, 'lukas', 'hallowelt');
+
+INSERT INTO Organisers (fkUser) VALUES (1);
+INSERT INTO Waiters (fkUser) VALUES (0);
+
+INSERT INTO Tables (idTable, sdoCoordinates) VALUES
+(
+  0,
+  SDO_GEOMETRY(2001,null,MDSYS.SDO_POINT_TYPE(1,1,null),null,null)
+);
+
+INSERT INTO Tables (idTable, sdoCoordinates) VALUES
+(
+  1,
+  SDO_GEOMETRY(2001,null,MDSYS.SDO_POINT_TYPE(15,3,null),null,null)
+);
+
+INSERT INTO Tables (idTable, sdoCoordinates) VALUES
+(
+  2,
+  SDO_GEOMETRY(2001,null,MDSYS.SDO_POINT_TYPE(33,2,null),null,null)
+);
+
+INSERT INTO Tables (idTable, sdoCoordinates) VALUES
+(
+  3,
+  SDO_GEOMETRY(2001,null,MDSYS.SDO_POINT_TYPE(3,31,null),null,null)
+);
+
+INSERT INTO Tables (idTable, sdoCoordinates) VALUES
+(
+  4,
+  SDO_GEOMETRY(2001,null,MDSYS.SDO_POINT_TYPE(5,8,null),null,null)
+);
+
+INSERT INTO Types (idType, name, vat) VALUES (0, 'Food', 10);
+INSERT INTO Types (idType, name, vat) VALUES (1, 'Drink', 20);
+
+INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
+(
+  0, 0, 'Schnitzel', 10.2, 150
+);
+
+INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
+(
+  1, 0, 'Schopf', 12, 50
+);
+
+INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
+(
+  2, 0, 'Gösser 0.5', 3, 2000
+);
+
+INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
+(
+  3, 0, 'Gösser 0.3', 2, 1500
+);
+
+INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
+(
+  4, 0, 'Cola', 2.8, 800
+);
+
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, note, cancelled) VALUES
+(
+  0, 1, 3, 0, 'ohne ketchup', 0
+);
+
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, note, cancelled) VALUES
+(
+  1, 2, 1, 0, '', 0
+);
+
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, note, cancelled) VALUES
+(
+  2, 4, 2, 0, '', 1
+);
+
+-- paid Orders
+INSERT INTO Bills (idBill, billDate) VALUES
+(
+  0, SYSDATE
+);
+
+INSERT INTO Bills (idBill, billDate) VALUES
+(
+  1, SYSDATE
+);
+
+INSERT INTO Orders (fkOrderEntry, fkBill, coupon) VALUES
+(
+  0, 0, 0
+);
+
+INSERT INTO Orders (fkOrderEntry, fkBill, coupon) VALUES
+(
+  1, 0, 0
+);
+
+INSERT INTO Orders (fkOrderEntry, fkBill, coupon) VALUES
+(
+  2, 1, 1
+);
