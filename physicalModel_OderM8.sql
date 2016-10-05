@@ -11,6 +11,7 @@ DROP TABLE Bills CASCADE CONSTRAINTS;
 CREATE TABLE Types (
   idType INTEGER,
   name VARCHAR2(40),
+  vat NUMBER(2,0),
 
   CONSTRAINT pkType PRIMARY KEY (idType)
 );
@@ -61,6 +62,7 @@ CREATE TABLE OrderEntries (
   fkTable INTEGER,
   fkUser INTEGER,
   note VARCHAR2(50),
+  cancelled NUMBER(1,0),
 
   CONSTRAINT pkOrderEntries PRIMARY KEY (idOrderEntry),
   CONSTRAINT fkOrderEntriesProducts FOREIGN KEY (fkProduct) REFERENCES Products (idProduct),
