@@ -1,4 +1,4 @@
-DROP TABLE Types CASCADE CONSTRAINTS;
+﻿DROP TABLE Types CASCADE CONSTRAINTS;
 DROP TABLE Products CASCADE CONSTRAINTS;
 DROP TABLE Tables CASCADE CONSTRAINTS;
 DROP TABLE OrderEntries CASCADE CONSTRAINTS;
@@ -56,19 +56,6 @@ CREATE TABLE Waiters (
   CONSTRAINT fkWaitersUsers FOREIGN KEY (fkUser) REFERENCES Users (idUser)
 );
 
-CREATE TABLE OrderEntries (
-  idOrderEntry INTEGER,
-  fkProduct INTEGER,
-  fkTable INTEGER,
-  fkUser INTEGER,
-  note VARCHAR2(50),
-  cancelled NUMBER(1,0),
-
-  CONSTRAINT pkOrderEntries PRIMARY KEY (idOrderEntry),
-  CONSTRAINT fkOrderEntriesProducts FOREIGN KEY (fkProduct) REFERENCES Products (idProduct),
-  CONSTRAINT fkOrderEntriesTables FOREIGN KEY (fkTable) REFERENCES Tables (idTable),
-  CONSTRAINT fkOrderEntriesWaiters FOREIGN KEY (fkUser) REFERENCES Waiters (fkUser)
-);
 
 CREATE TABLE Bills (
   idBill INTEGER,
@@ -77,16 +64,22 @@ CREATE TABLE Bills (
   CONSTRAINT pkBills PRIMARY KEY (idBill)
 );
 
-CREATE TABLE Orders (
-  fkOrderEntry INTEGER,
+CREATE TABLE OrderEntries (
+  idOrderEntry INTEGER,
+  fkProduct INTEGER,
+  fkTable INTEGER,
+  fkUser INTEGER,
   fkBill INTEGER,
+  note VARCHAR2(50),
+  cancelled NUMBER(1,0),
   coupon NUMBER(1,0),
 
-  CONSTRAINT pkOrders PRIMARY KEY (fkOrderEntry, fkBill),
-  CONSTRAINT fkOrdersOrderEntries FOREIGN KEY (fkOrderEntry) REFERENCES OrderEntries (idOrderEntry),
-  CONSTRAINT fkOrdersBills FOREIGN KEY (fkBill) REFERENCES Bills (idBill)
+  CONSTRAINT pkOrderEntries PRIMARY KEY (idOrderEntry),
+  CONSTRAINT fkOrderEntriesProducts FOREIGN KEY (fkProduct) REFERENCES Products (idProduct),
+  CONSTRAINT fkOrderEntriesTables FOREIGN KEY (fkTable) REFERENCES Tables (idTable),
+  CONSTRAINT fkOrderEntriesWaiters FOREIGN KEY (fkUser) REFERENCES Waiters (fkUser),
+  CONSTRAINT fkOrderEntriesBills FOREIGN KEY (fkBill) REFERENCES Bills (idBill)
 );
-
 
 -- Test Data --
 INSERT INTO Users (idUser, username, password) VALUES (0, 'thomas', 'sillian');
@@ -153,21 +146,6 @@ INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
   4, 0, 'Cola', 2.8, 800
 );
 
-INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, note, cancelled) VALUES
-(
-  0, 1, 3, 0, 'ohne ketchup', 0
-);
-
-INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, note, cancelled) VALUES
-(
-  1, 2, 1, 0, '', 0
-);
-
-INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, note, cancelled) VALUES
-(
-  2, 4, 2, 0, '', 1
-);
-
 -- paid Orders
 INSERT INTO Bills (idBill, billDate) VALUES
 (
@@ -179,17 +157,25 @@ INSERT INTO Bills (idBill, billDate) VALUES
   1, SYSDATE
 );
 
-INSERT INTO Orders (fkOrderEntry, fkBill, coupon) VALUES
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
 (
-  0, 0, 0
+  0, 1, 3, 0, 0, 'ohne ketchup', 0, 0
 );
 
-INSERT INTO Orders (fkOrderEntry, fkBill, coupon) VALUES
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
 (
-  1, 0, 0
+  1, 2, 1, 0, 0, '', 0, 0
 );
 
-INSERT INTO Orders (fkOrderEntry, fkBill, coupon) VALUES
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
 (
-  2, 1, 1
+  2, 4, 2, 0, 1, '', 0, 1
 );
+
+
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
+(
+  3, 4, 2, 0, NULL, '', 0, 0
+);
+
+
