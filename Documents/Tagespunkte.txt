@@ -1,0 +1,6 @@
+1.) Begrüßung
+2.) Hat jemand schon Erfahrung mit JavaEE / Glassfish?
+3.) Virtuelle Machine oder Server mieten (8€)
+4.) Erklärung von AngularJS (durch Andy/Lackner)
+5.) Besprechung welche WebServices benötigt werden... (JSON / XML etc.)
+6.) Sonstige Themen
