@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <form name="tableForm" ng-submit="insertTable()">
+         <div class="form-group">
+            <label for="inputX">X Coordinate</label>
+            <input type="number" name="x" min="0" class="form-control" id="inputX" placeholder="Enter Quantity" ng-model="table.x" ng-class="{ 'invalid': tableForm.x.$invalid , 'valid': tableForm.x.$valid  }" required>
+            <small class="errormessage form-text text-muted"  ng-hide="tableForm.x.$valid">Enter a valid coordinate (e.g. 5)</small>
+        </div>
+         <div class="form-group">
+            <label for="inputY">Y Coordinate</label>
+            <input type="number" name="y" min="0" class="form-control" id="inputY" placeholder="Enter Quantity" ng-model="table.y" ng-class="{ 'invalid': tableForm.y.$invalid , 'valid': tableForm.y.$valid  }" required>
+            <small class="errormessage form-text text-muted"  ng-hide="tableForm.y.$valid">Enter a valid coordinate (e.g. 5)</small>
+        </div>
+        <button type="submit" ng-disabled="tableForm.$invalid" class="btn btn-success">Create</button>
+        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus = 'success' , 'error': insertStatus = 'error'}">{{insertMessage}}</small>
+    </form>
+    <section class="tableSection">
+        <table>
+            <tr>
+                <th>idTable</th>
+                <th>X Coordinate</th>
+                <th>Y Coordinate</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr ng-repeat="t in tables">
+                <td>{{ t.idTable }}</td>
+                <td>{{ t.x }}</td>
+                <td>{{ t.y}}</td>
+                <td ng-hide="editMode">
+                    <button type="button" class="tableBtn btn btn-default" aria-label="Left Align" ng-click="setTmpTable(t)" data-toggle="modal" data-target="#modalEdit">
+                        <span class=" fa fa-pencil" aria-hidden="true"></span>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="tableBtn btn btn-default" aria-label="Left Align" ng-click="setTmpTable(t)" data-toggle="modal" data-target="#modalDelete">
+                        <span class="fa fa-trash-o" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus = 'success' , 'error': updateDeleteStatus = 'error'}">{{updateDeleteMessage}}</small>
+    </section>
+    <div class="modal fade" id="modalDelete" role="dialog" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Table {{tmpTable.idTable}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete Table {{tmpTable.idTable}}?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteTmpTable()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<form name="tableEditForm">
+    <div class="modal fade" id="modalEdit" role="dialog" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Table {{tmpTable.idTable}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputEditX">X Coordinate</label>
+                        <input type="number" name="editX" min="0" class="form-control" id="inputEditX" placeholder="Enter Quantity" ng-model="tmpTable.x" ng-class="{ 'invalid': tableEditForm.editX.$invalid , 'valid': tableEditForm.editX.$valid  }" required>
+                        <small class="errormessage form-text text-muted"  ng-hide="tableEditForm.editX.$valid">Enter a valid coordinate (e.g. 5)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEditY">Y Coordinate</label>
+                        <input type="number" name="editY" min="0" class="form-control" id="inputEditY" placeholder="Enter Quantity" ng-model="tmpTable.y" ng-class="{ 'invalid': tableEditForm.editY.$invalid , 'valid': tableEditForm.editY.$valid  }" required>
+                        <small class="errormessage form-text text-muted"  ng-hide="tableEditForm.editY.$valid">Enter a valid coordinate (e.g. 5)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" data-dismiss="modal" ng-disabled="tableEditForm.$invalid" ng-click="updateTmpTable()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

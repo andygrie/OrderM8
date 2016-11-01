@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>OrderM8</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet" />
+    <link href="css/organiser.css" rel="stylesheet" />
+    <link href="css/waiter.css" rel="stylesheet" />
+    <link href="css/product.css" rel="stylesheet" />
+    <link href="css/type.css" rel="stylesheet"/>
+    <link href="css/table.css" rel="stylesheet"/>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+    <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/waiter.js" type="text/javascript"></script>
+    <script src="js/organiser.js" type="text/javascript"></script>
+    <script src="js/table.js" type="text/javascript"></script>
+    <script src="js/type.js" type="text/javascript"></script>
+    <script src="js/product.js" type="text/javascript"></script>
+    <script src="js/spatial.js" type="text/javascript"></script>
+    <script src="js/overview.js" type="text/javascript"></script>
+    <script src="js/services.js" type="text/javascript"></script>
+</head>
+<body ng-app="starter" ng-controller="ctrl">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="nav-side-menu">
+                    <div class="brand">OrderM8</div>
+                    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#overview"></i>
+                    <div class="menu-list">
+                        <ul id="overview" class="menu-content collapse out">
+                            <li ng-class="{ 'active': isPageSelected('overview') , '': !isPageSelected('overview')  }">
+                                <a href="#overviewView" ng-click="page = 'overview'" ng-class="{ 'activeMenuEntry': isPageSelected('overview') , '': !isPageSelected('overview')  }">
+                                    <i class="fa fa-list"></i> Overview
+                                </a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#users" class="collapsed">
+                                <a ng-class="{ 'activeMenuEntry': isPageSelected('waiter') || isPageSelected('organiser') , '': !(isPageSelected('waiter') ||  isPageSelected('organiser')) }"><i class="fa fa-user"></i> User <span class="arrow"></span></a>
+                            </li>
+                            <li>
+                                <ul class="sub-menu collapse" id="users">
+                                    <li ng-class="{ 'active': isPageSelected('waiter') , '': !isPageSelected('waiter')  }"><a href="#waiterView" ng-click="page = 'waiter'">Waiter</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('organiser') , '': !isPageSelected('organiser')  }"><a href="#organiserView" ng-click="page = 'organiser'">Organiser</a></li>
+                                </ul>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#products" class="collapsed">
+                                <a ng-class="{ 'activeMenuEntry': isPageSelected('product') || isPageSelected('type') , '': !(isPageSelected('product') ||  isPageSelected('type')) }"><i class="fa fa-cutlery"></i> Products <span class="arrow"></span></a>
+                            </li>
+                            <li>
+                                <ul class="sub-menu collapse" id="products">
+                                    <li ng-class="{ 'active': isPageSelected('product') , '': !isPageSelected('product')  }"><a href="#productView" ng-click="page = 'product'">Product</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('type') , '': !isPageSelected('type')  }"><a href="#typeView" ng-click="page = 'type'">Type</a></li>
+                                </ul>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#structure" class="collapsed">
+                                <a ng-class="{ 'activeMenuEntry': isPageSelected('table') || isPageSelected('spatial') , '': !(isPageSelected('table') ||  isPageSelected('spatial')) }"><i class="fa fa-home"></i> Structure <span class="arrow"></span></a>
+                            </li>
+                            <li>
+                                <ul class="sub-menu collapse" id="structure">
+                                    <li ng-class="{ 'active': isPageSelected('table') , '': !isPageSelected('table')  }"><a href="#tableView" ng-click="page = 'table'">Table</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('spatial') , '': !isPageSelected('spatial')  }"><a href="#spatialView" ng-click="page = 'spatial'">Spatial Orientation</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 col-sm-offset-2" ng-view></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Menu Layout --> http://bootsnipp.com/snippets/z7738 [16.10.2016]
+Css Class + If --> https://scotch.io/tutorials/the-many-ways-to-use-ngclass [17.10.2016]
+bootstrap form --> https://v4-alpha.getbootstrap.com/components/forms/#form-controls [19.10.2016]

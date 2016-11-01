@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <form name="productForm" ng-submit="insertProduct()">
+        <div class="form-group">
+            <label for="inputProductName">Name</label>
+            <input type="text" name="productName" class="form-control" id="inputProductName" placeholder="Enter Product name" ng-model="product.name" ng-class="{ 'invalid': productForm.productName.$invalid , 'valid': productForm.productName.$valid  }" required>
+            <small class="errormessage form-text text-muted" ng-hide="productForm.productName.$valid">Product name is required</small>
+        </div>
+        <div class="form-group">
+            <label for="inputPrice">Price</label>
+            <div class="input-group">
+                <div class="input-group-addon">€</div>
+                <input type="number" name="price" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.1" min="0.10" ng-model="product.price" class="form-control" id="inputPrice" placeholder="Amount" ng-class="{ 'invalid': productForm.price.$invalid , 'valid': productForm.price.$valid  }" required>
+            </div>
+            <small class="errormessage form-text text-muted" ng-hide="productForm.price.$valid">Enter a valid price (e.g. 3.90)</small>
+        </div>
+        <div class="form-group">
+            <label for="inputQuantity">Quantity</label>
+            <input type="number" name="quantity" ng-pattern="/^[1-9]*[0-9]$/" class="form-control" id="inputQuantity" placeholder="Enter Quantity" ng-model="product.quantity" ng-class="{ 'invalid': productForm.quantity.$invalid , 'valid': productForm.quantity.$valid  }" required>
+            <small class="errormessage form-text text-muted"  ng-hide="productForm.quantity.$valid">Enter a valid quantity (e.g. 5)</small>
+        </div>
+        <div class="form-group">
+            <label for="selectType">Type</label>
+            <select class="form-control" id="selectType" name="type" ng-options="t.name for t in types" ng-model="product.fkUser" ng-class="{ 'invalid': productForm.type.$invalid , 'valid': productForm.type.$valid  }">
+            </select>
+            <small class="errormessage form-text text-muted"  ng-hide="productForm.type.$valid">Select a type</small>
+        </div>
+        <button type="submit" ng-disabled="productForm.$invalid" class="btn btn-success">Create</button>
+        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus = 'success' , 'error': insertStatus = 'error'}">{{insertMessage}}</small>
+    </form>
+    <section class="tableSection">
+        <table>
+            <tr>
+                <th>idProduct</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Type</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr ng-repeat="p in products">
+                <td>{{ p.idProduct }}</td>
+                <td>{{ p.name}}</td>
+                <td>{{ p.price }}</td>
+                <td>{{ p.quantity}}</td>
+                <td>{{ p.fkType}}</td>
+                <td ng-hide="editMode">
+                    <button type="button" class="tableBtn btn btn-default" aria-label="Left Align" ng-click="setTmpProduct(p)" data-toggle="modal" data-target="#modalEdit">
+                        <span class=" fa fa-pencil" aria-hidden="true"></span>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="tableBtn btn btn-default" aria-label="Left Align" ng-click="setTmpProduct(p)" data-toggle="modal" data-target="#modalDelete">
+                        <span class="fa fa-trash-o" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus = 'success' , 'error': updateDeleteStatus = 'error'}">{{updateDeleteMessage}}</small>
+    </section>
+    <div class="modal fade" id="modalDelete" role="dialog" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Product {{tmpProduct.idProduct}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete Product {{tmpProduct.idProduct}}?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteTmpProduct()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<form name="productEditForm">
+    <div class="modal fade" id="modalEdit" role="dialog" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Product {{tmpProduct.idProduct}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputEditProductName">Name</label>
+                        <input type="text" name="productEditName" class="form-control" id="inputEditProductName" placeholder="Enter Product name" ng-model="tmpProduct.name" ng-class="{ 'invalid': productEditForm.productEditName.$invalid , 'valid': productEditForm.productEditName.$valid  }" required>
+                        <small class="errormessage form-text text-muted" ng-hide="productEditForm.productEditName.$valid">Product name is required</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEditPrice">Price</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">€</div>
+                            <input type="number" name="editPrice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.1" min="0.10" ng-model="tmpProduct.price" class="form-control" id="inputEditPrice" placeholder="Amount" ng-class="{ 'invalid': productEditForm.editPrice.$invalid , 'valid': productEditForm.editPrice.$valid  }" required>
+                        </div>
+                        <small class="errormessage form-text text-muted" ng-hide="productEditForm.editPrice.$valid">Enter a valid price (e.g. 3.90)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEditQuantity">Quantity</label>
+                        <input type="number" name="editQuantity" ng-pattern="/^[1-9]*[0-9]$/" class="form-control" id="inputEditQuantity" placeholder="Enter Quantity" ng-model="tmpProduct.quantity" ng-class="{ 'invalid': productEditForm.editQuantity.$invalid , 'valid': productEditForm.editQuantity.$valid  }" required>
+                        <small class="errormessage form-text text-muted"  ng-hide="productEditForm.editQuantity.$valid">Enter a valid quantity (e.g. 5)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectEditType">Type</label>
+                        <select class="form-control" id="selectEditType" name="editType" ng-options="t.name for t in types" ng-model="tmpProduct.fkUser" ng-class="{ 'invalid': productEditForm.editType.$invalid , 'valid': productEditForm.editType.$valid  }">
+                        </select>
+                        <small class="errormessage form-text text-muted"  ng-hide="productEditForm.editType.$valid">Select a type</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" data-dismiss="modal" ng-disabled="productEditForm.$invalid" ng-click="updateTmpProduct()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

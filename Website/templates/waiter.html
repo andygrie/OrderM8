@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Waiters</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <form name="userForm" ng-submit="insertUser()">
+        <div class="form-group">
+            <label for="inputUsername">Username</label>
+            <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Enter Username" ng-model="user.username" ng-class="{ 'invalid': userForm.username.$invalid , 'valid': userForm.username.$valid  }" required>
+            <small class="errormessage form-text text-muted" ng-hide="userForm.username.$valid">Username is required</small>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter Password (min. 8 characters)" ng-model="user.password" ng-class="{ 'invalid': userForm.password.$invalid , 'valid': userForm.password.$valid  }" ng-minlength="8" required>
+            <small class="errormessage form-text text-muted" ng-show="userForm.password.$error.minlength">Password is too short</small>
+            <small class="errormessage form-text text-muted" ng-show="userForm.password.$error.required">Password is required</small>
+        </div>
+        <div class="form-group">
+            <label for="inputPasswordRepeat">Retype</label>
+            <input type="password" name="retype" class="form-control" id="inputPasswordRepeat" placeholder="Retype Password" ng-model="retype" ng-class="{ 'invalid': userForm.retype.$invalid , 'valid': userForm.retype.$valid  }" ng-minlength="8" compare-to="user.password" required>
+            <small class="errormessage form-text text-muted" ng-hide="userForm.retype.$valid">Passwords don't match!</small>
+        </div>
+        <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-success">Create</button>
+        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus = 'success' , 'error': insertStatus = 'error'}">{{insertMessage}}</small>
+    </form>
+    <section class="tableSection">
+        <table>
+            <tr>
+                <th>idUser</th>
+                <th>Username</th>
+                <th>Change Password</th>
+                <th>Delete</th>
+            </tr>
+            <tr ng-repeat="u in users">
+                <td>{{ u.idUser }}</td>
+                <td>{{ u.username }}</td>
+                <td ng-hide="editMode">
+                    <button type="button" class="tableBtn btn btn-default" aria-label="Left Align" ng-click="setTmpUser(u)" data-toggle="modal" data-target="#modalEdit">
+                        <span class=" fa fa-pencil" aria-hidden="true"></span>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="tableBtn btn btn-default" aria-label="Left Align" ng-click="setTmpUser(u)" data-toggle="modal" data-target="#modalDelete">
+                        <span class="fa fa-trash-o" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus = 'success' , 'error': updateDeleteStatus = 'error'}">{{updateDeleteMessage}}</small>
+    </section>
+     <div class="modal fade" id="modalDelete" role="dialog" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete User {{tmpUser.username}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete User {{tmpUser.username}}?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteTmpUser()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<form name="userEditForm">
+    <div class="modal fade" id="modalEdit" role="dialog" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit User {{tmpUser.username}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputEditPassword">Password</label>
+                        <input type="password" name="editPassword" class="form-control" id="inputEditPassword" placeholder="Enter Password (min. 8 characters)" ng-model="tmpUser.password" ng-class="{ 'invalid': userEditForm.editPassword.$invalid , 'valid': userEditForm.editPassword.$valid  }" ng-minlength="8" required>
+                        <small class="errormessage form-text text-muted" ng-show="userEditForm.editPassword.$error.minlength">Password is too short</small>
+                        <small class="errormessage form-text text-muted" ng-show="userEditForm.editPassword.$error.required">Password is required</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEditPasswordRepeat">Retype</label>
+                        <input type="password" name="editRetype" class="form-control" id="inputEditPasswordRepeat" placeholder="Retype Password" ng-model="editRetype" ng-class="{ 'invalid': userEditForm.editRetype.$invalid , 'valid': userEditForm.editRetype.$valid  }" ng-minlength="8" compare-to="tmpUser.password" required>
+                        <small class="errormessage form-text text-muted" ng-hide="userEditForm.editRetype.$valid">Passwords don't match!</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" data-dismiss="modal" ng-disabled="userEditForm.$invalid" ng-click="updateTmpUser()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+</body>
+</html>

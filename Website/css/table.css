@@ -1,0 +1,26 @@
+form{
+    width: 45%;
+    display: inline-block;
+}
+table{
+    width: 100%;
+}
+.tableSection{
+    width: 45%;
+    float: right;
+}
+th {
+    background-color: #a83036!important;
+    color: white!important;
+}
+th, td, td > input {
+    text-align: center!important;
+    padding: 8px!important;
+}
+tr:nth-child(even) {background: #f29898}
+tr:nth-child(odd) {background: #FFF}
+
+.tableBtn{
+    background-color: transparent!important;
+    border: none!important;
+}
