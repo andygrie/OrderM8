@@ -23,17 +23,17 @@
         </div>
         <div class="form-group">
             <label for="inputQuantity">Quantity</label>
-            <input type="number" name="quantity" ng-pattern="/^[1-9]*[0-9]$/" class="form-control" id="inputQuantity" placeholder="Enter Quantity" ng-model="product.quantity" ng-class="{ 'invalid': productForm.quantity.$invalid , 'valid': productForm.quantity.$valid  }" required>
+            <input type="number" name="quantity" ng-pattern="/^[1-9][0-9]*$/" class="form-control" id="inputQuantity" placeholder="Enter Quantity" ng-model="product.quantity" ng-class="{ 'invalid': productForm.quantity.$invalid , 'valid': productForm.quantity.$valid  }" required>
             <small class="errormessage form-text text-muted"  ng-hide="productForm.quantity.$valid">Enter a valid quantity (e.g. 5)</small>
         </div>
         <div class="form-group">
             <label for="selectType">Type</label>
-            <select class="form-control" id="selectType" name="type" ng-options="t.name for t in types" ng-model="product.fkUser" ng-class="{ 'invalid': productForm.type.$invalid , 'valid': productForm.type.$valid  }">
+            <select class="form-control" id="selectType" name="type" ng-options="t.idType as t.name for t in productTypes" ng-model="product.fkType" ng-class="{ 'invalid': productForm.type.$invalid , 'valid': productForm.type.$valid  }" required>
             </select>
             <small class="errormessage form-text text-muted"  ng-hide="productForm.type.$valid">Select a type</small>
         </div>
         <button type="submit" ng-disabled="productForm.$invalid" class="btn btn-success">Create</button>
-        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus = 'success' , 'error': insertStatus = 'error'}">{{insertMessage}}</small>
+        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus === 'success' , 'error': insertStatus === 'error'}">{{insertMessage}}</small>
     </form>
     <section class="tableSection">
         <table>
@@ -64,7 +64,7 @@
                 </td>
             </tr>
         </table>
-        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus = 'success' , 'error': updateDeleteStatus = 'error'}">{{updateDeleteMessage}}</small>
+        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus === 'success' , 'error': updateDeleteStatus === 'error'}">{{updateDeleteMessage}}</small>
     </section>
     <div class="modal fade" id="modalDelete" role="dialog" >
         <div class="modal-dialog modal-sm">
@@ -106,12 +106,12 @@
                     </div>
                     <div class="form-group">
                         <label for="inputEditQuantity">Quantity</label>
-                        <input type="number" name="editQuantity" ng-pattern="/^[1-9]*[0-9]$/" class="form-control" id="inputEditQuantity" placeholder="Enter Quantity" ng-model="tmpProduct.quantity" ng-class="{ 'invalid': productEditForm.editQuantity.$invalid , 'valid': productEditForm.editQuantity.$valid  }" required>
+                        <input type="number" name="editQuantity" ng-pattern="/^[1-9][0-9]*$/" class="form-control" id="inputEditQuantity" placeholder="Enter Quantity" ng-model="tmpProduct.quantity" ng-class="{ 'invalid': productEditForm.editQuantity.$invalid , 'valid': productEditForm.editQuantity.$valid  }" required>
                         <small class="errormessage form-text text-muted"  ng-hide="productEditForm.editQuantity.$valid">Enter a valid quantity (e.g. 5)</small>
                     </div>
                     <div class="form-group">
                         <label for="selectEditType">Type</label>
-                        <select class="form-control" id="selectEditType" name="editType" ng-options="t.name for t in types" ng-model="tmpProduct.fkUser" ng-class="{ 'invalid': productEditForm.editType.$invalid , 'valid': productEditForm.editType.$valid  }">
+                        <select class="form-control" id="selectEditType" name="editType" ng-options="t.idType as t.name for t in productTypes" ng-model="tmpProduct.fkType" ng-class="{ 'invalid': productEditForm.editType.$invalid , 'valid': productEditForm.editType.$valid  }" required>
                         </select>
                         <small class="errormessage form-text text-muted"  ng-hide="productEditForm.editType.$valid">Select a type</small>
                     </div>

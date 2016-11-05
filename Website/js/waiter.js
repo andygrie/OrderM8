@@ -2,19 +2,26 @@
 
 .controller('waiterCtrl', ['$scope', 'userService',  function($scope, userService){
                 $scope.title = 'Waiter';
-                $scope.users = userService.getUsers();
-                $scope.users.push({idUser: 1, username: 'andygrie', password: 'deadbears'});
-                $scope.users.push({idUser: 2, username: 'seccomusic', password: 'fishysmell'});
+                $scope.updateDeleteMessage = 'loading...';
+                var promiseGet = userService.promiseGetUsers();
+                promiseGet.then(function(response){
+                    $scope.users = userService.getUsers();
+                    $scope.updateDeleteMessage = 'successfully loaded';
+                    $scope.updateDeleteStatus = 'success';
+                }, function(response){
+                    console.log(response.data.errorMessage);
+                })
                 $scope.insertUser = function(){
-                    insertStatus = '';
+                    $scope.insertStatus = '';
                     $scope.insertMessage = 'inserting...';
                     $scope.user.uType = 1;
                     var promiseInsert = userService.promiseInsertUser($scope.user);
                     promiseInsert.then(function(response){
-                        insertStatus = 'success';
+                        $scope.insertStatus = 'success';
                         $scope.users = userService.getUsers();
+                        $scope.insertMessage = 'successfully inserted';
                     },function(response){
-                        insertStatus = 'error';
+                        $scope.insertStatus = 'error';
                         console.log(response);
                         if(response.data === null)
                             $scope.insertMessage = 'WebService not found';
@@ -31,15 +38,16 @@
                     };
                 }
                 $scope.deleteTmpUser = function(){
-                    updateDeleteStatus = '';
+                    $scope.updateDeleteStatus = '';
                     $scope.updateDeleteMessage = 'deleting...';
                     var promiseDelete = userService.promiseDeleteUser($scope.tmpUser);
                     promiseDelete.then(function(response){
-                        updateDeleteStatus = 'success';
+                        $scope.updateDeleteStatus = 'success';
+                        $scope.updateDeleteMessage = 'successfully deleted';
                         $scope.users = userService.getUsers();
                     },
                     function(response){
-                        updateDeleteStatus = 'error';
+                        $scope.updateDeleteStatus = 'error';
                         if(response.data === null)
                             $scope.updateDeleteMessage = 'WebService not found';
                         else
@@ -47,15 +55,16 @@
                     })
                 }
                 $scope.updateTmpUser = function(){
-                    updateDeleteStatus = '';
+                    $scope.updateDeleteStatus = '';
                     $scope.updateDeleteMessage = 'updating...';
                     var promiseUpdate = userService.promiseUpdateUser($scope.tmpUser);
                     promiseUpdate.then(function(response){
-                        updateDeleteStatus = 'success';
+                        $scope.updateDeleteStatus = 'success';
+                        $scope.updateDeleteMessage = 'successfully updated';
                         $scope.users = userService.getUsers();
                     },
                     function(response){
-                        updateDeleteStatus = 'error';
+                        $scope.updateDeleteStatus = 'error';
                         if(response.data === null)
                             $scope.updateDeleteMessage = 'WebService not found';
                         else

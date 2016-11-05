@@ -25,7 +25,7 @@
             <small class="errormessage form-text text-muted" ng-hide="userForm.retype.$valid">Passwords don't match!</small>
         </div>
         <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-success">Create</button>
-        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus = 'success' , 'error': insertStatus = 'error'}">{{insertMessage}}</small>
+        <small class="insertMessage form-text text-muted" ng-class="{'success': insertStatus === 'success' , 'error': insertStatus === 'error'}">{{insertMessage}}</small>
     </form>
     <section class="tableSection">
         <table>
@@ -35,7 +35,7 @@
                 <th>Change Password</th>
                 <th>Delete</th>
             </tr>
-            <tr ng-repeat="u in users">
+            <tr ng-repeat="u in users | filter:{ uType: 1 }">
                 <td>{{ u.idUser }}</td>
                 <td>{{ u.username }}</td>
                 <td ng-hide="editMode">
@@ -50,7 +50,7 @@
                 </td>
             </tr>
         </table>
-        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus = 'success' , 'error': updateDeleteStatus = 'error'}">{{updateDeleteMessage}}</small>
+        <small class="updateDeleteMessage form-text text-muted" ng-class="{'success': updateDeleteStatus === 'success' , 'error': updateDeleteStatus === 'error'}">{{updateDeleteMessage}}</small>
     </section>
      <div class="modal fade" id="modalDelete" role="dialog" >
         <div class="modal-dialog modal-sm">

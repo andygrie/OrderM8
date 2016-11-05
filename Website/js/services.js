@@ -1,6 +1,6 @@
 angular.module('services', [])
 
-.factory('productTypeService', ['$http', '$q', function($http, $q){
+.factory('productTypeService', ['$http', '$q', 'URL', function($http, $q, URL){
     var productTypes = [];
     var service = {
         getProductTypes : getProductTypes,
@@ -19,7 +19,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: 'api/producttype'
+                url: URL + '/producttype'
               }).then(function successCallback(response) {
                   productTypes = response.data;
                   resolve("successfully");
@@ -33,7 +33,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             var req = {
                  method: 'POST',
-                 url: 'api/producttype',
+                 url: URL + '/producttype',
                  data: producttype
             }
             $http(req).then(
@@ -49,7 +49,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'PUT',
-                     url: 'api/producttype/' + producttype.idType,
+                     url: URL + '/producttype/' + producttype.idType,
                      data: producttype
                 }
                 $http(req).then(
@@ -67,7 +67,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: 'api/producttype/' + producttype.idType
+                     url: URL + '/producttype/' + producttype.idType
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -93,7 +93,7 @@ angular.module('services', [])
     }
 }])
 
-.factory('productService', ['$http', '$q', function($http, $q){
+.factory('productService', ['$http', '$q','URL', function($http, $q, URL){
     var products = [];
     var service = {
         getProducts : getProducts,
@@ -112,7 +112,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: 'api/product'
+                url: URL + '/product'
               }).then(function successCallback(response) {
                   products = response.data;
                   resolve("successfully");
@@ -126,7 +126,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             var req = {
                  method: 'POST',
-                 url: 'api/product',
+                 url: URL + '/product',
                  data: product
             }
             $http(req).then(
@@ -143,7 +143,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'PUT',
-                     url: 'api/product/' + product.idProduct,
+                     url: URL + '/product/' + product.idProduct,
                      data: product
                 }
                 $http(req).then(
@@ -164,7 +164,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: 'api/product/' + product.idProduct
+                     url: URL + '/product/' + product.idProduct
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -190,7 +190,7 @@ angular.module('services', [])
     }
 }])
 
-.factory('userService', ['$http', '$q', function($http, $q){
+.factory('userService', ['$http', '$q', 'URL', function($http, $q, URL){
     var users = [];
     var service = {
         getUsers : getUsers,
@@ -209,7 +209,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: 'api/user'
+                url: URL + '/user'
               }).then(function successCallback(response) {
                   users = response.data;
                   resolve("successfully");
@@ -224,7 +224,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             var req = {
                  method: 'POST',
-                 url: 'api/user',
+                 url: URL + '/user',
                  data: user
             }
             $http(req).then(
@@ -241,7 +241,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'PUT',
-                     url: 'api/user/' + user.idUser,
+                     url: URL + '/user/' + user.idUser,
                      data: user
                 }
                 $http(req).then(
@@ -259,7 +259,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: 'api/user/' + user.idUser
+                     url: URL + '/user/' + user.idUser
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -285,7 +285,7 @@ angular.module('services', [])
     }
 }])
 
-.factory('tableService', ['$http', '$q', function($http, $q){
+.factory('tableService', ['$http', '$q', 'URL', function($http, $q, URL){
     var tables = [];
     var service = {
         getTables : getTables,
@@ -304,7 +304,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: 'api/table'
+                url: URL + '/table'
               }).then(function successCallback(response) {
                   tables = response.data;
                   resolve("successfully");
@@ -319,7 +319,7 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             var req = {
                  method: 'POST',
-                 url: 'api/table',
+                 url: URL + '/table',
                  data: table
             }
             $http(req).then(
@@ -336,7 +336,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'PUT',
-                     url: 'api/table/' + table.idTable,
+                     url: URL + '/table/' + table.idTable,
                      data: table
                 }
                 $http(req).then(
@@ -354,7 +354,7 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: 'api/table/' + table.idTable
+                     url: URL + '/table/' + table.idTable
                 }
                 $http(req).then(
                 function successCallback(response){

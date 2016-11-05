@@ -2,18 +2,25 @@ angular.module('table', [])
 
 .controller('tableCtrl', ['$scope', 'tableService',  function($scope, tableService){
                 $scope.title = 'Table';
-                $scope.tables = tableService.getTables();
-                $scope.tables.push({x:4, y:5, idTable:1});
-                $scope.tables.push({x:6, y:1, idTable:2});
+                $scope.updateDeleteMessage = 'loading...';
+                var promiseGet = tableService.promiseGetTables();
+                promiseGet.then(function(response){
+                    $scope.tables = tableService.getTables();
+                    $scope.updateDeleteMessage = 'successfully loaded';
+                    $scope.updateDeleteStatus = 'success';
+                }, function(response){
+                    console.log(response.data.errorMessage);
+                })
                 $scope.insertTable = function(){
-                    insertStatus = '';
+                    $scope.insertStatus = '';
                     $scope.insertMessage = 'inserting...';
                     var promiseInsert = tableService.promiseInsertTable($scope.table);
                     promiseInsert.then(function(response){
-                        insertStatus = 'success';
+                        $scope.insertStatus = 'success';
                         $scope.tables = tableService.getTables();
+                        $scope.insertMessage = 'successfully inserted';
                     },function(response){
-                        insertStatus = 'error';
+                        $scope.insertStatus = 'error';
                         console.log(response);
                         if(response.data === null)
                             $scope.insertMessage = 'WebService not found';
@@ -31,15 +38,16 @@ angular.module('table', [])
                     };
                 }
                 $scope.deleteTmpTable = function(){
-                    updateDeleteStatus = '';
+                    $scope.updateDeleteStatus = '';
                     $scope.updateDeleteMessage = 'deleting...';
                     var promiseDelete = tableService.promiseDeleteTable($scope.tmpTable);
                     promiseDelete.then(function(response){
-                        updateDeleteStatus = 'success';
+                        $scope.updateDeleteStatus = 'success';
+                        $scope.updateDeleteMessage = 'successfully deleted';
                         $scope.tables = tableService.getTables();
                     },
                     function(response){
-                        updateDeleteStatus = 'error';
+                        $scope.updateDeleteStatus = 'error';
                         if(response.data === null)
                             $scope.updateDeleteMessage = 'WebService not found';
                         else
@@ -47,15 +55,16 @@ angular.module('table', [])
                     })
                 }
                 $scope.updateTmpTable = function(){
-                    updateDeleteStatus = '';
+                    $scope.updateDeleteStatus = '';
                     $scope.updateDeleteMessage = 'updating...';
                     var promiseUpdate = tableService.promiseUpdateTable($scope.tmpTable);
                     promiseUpdate.then(function(response){
-                        updateDeleteStatus = 'success';
+                        $scope.updateDeleteStatus = 'success';
+                        $scope.updateDeleteMessage = 'successfully updated';
                         $scope.tables = tableService.getTables();
                     },
                     function(response){
-                        updateDeleteStatus = 'error';
+                        $scope.updateDeleteStatus = 'error';
                         if(response.data === null)
                             $scope.updateDeleteMessage = 'WebService not found';
                         else

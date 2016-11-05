@@ -19,6 +19,8 @@ app.controller('ctrl', ['$scope',
                             }
                         }]);
 
+app.constant('URL', 'http://178.112.169.84:8085/orderm8/api');
+
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/waiterView', {

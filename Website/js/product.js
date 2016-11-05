@@ -1,20 +1,33 @@
 angular.module('product', [])
 
-.controller('productCtrl', ['$scope', 'productService',  function($scope, productService){
+.controller('productCtrl', ['$scope', 'productService', 'productTypeService',  function($scope, productService, productTypeService){
                 $scope.title = 'Product';
-                $scope.products = productService.getProducts();
-                $scope.products.push({name: 'Burger', fkType: 2, price: 5.5, quantity: 6, idProduct: 1}); 
-                $scope.products.push({name: 'Salat', fkType: 2, price: 121.5, quantity: 1, idProduct: 2});
+                $scope.updateDeleteMessage = 'loading...';
+                var promiseGet = productService.promiseGetProducts();
+                promiseGet.then(function(response){
+                    $scope.products = productService.getProducts();
+                    var promiseGet = productTypeService.promiseGetProductTypes();
+                    promiseGet.then(function(response){
+                        $scope.productTypes = productTypeService.getProductTypes();
+                        $scope.updateDeleteMessage = 'successfully loaded';
+                        $scope.updateDeleteStatus = 'success';
+                    }, function(response){
+                        console.log(response.data.errorMessage);
+                    })
+                }, function(response){
+                    console.log(response.data.errorMessage);
+                })
+                
                 $scope.insertProduct = function(){
-                    insertStatus = '';
+                    $scope.insertStatus = '';
                     $scope.insertMessage = 'inserting...';
-                    $scope.product.fkType = 1;
                     var promiseInsert = productService.promiseInsertProduct($scope.product);
                     promiseInsert.then(function(response){
-                        insertStatus = 'success';
+                        $scope.insertStatus = 'success';
                         $scope.products = productService.getProducts();
+                        $scope.insertMessage = 'successfully inserted';
                     },function(response){
-                        insertStatus = 'error';
+                        $scope.insertStatus = 'error';
                         console.log(response);
                         if(response.data === null)
                             $scope.insertMessage = 'WebService not found';
@@ -32,15 +45,16 @@ angular.module('product', [])
                     };
                 }
                 $scope.deleteTmpProduct = function(){
-                    updateDeleteStatus = '';
+                    $scope.updateDeleteStatus = '';
                     $scope.updateDeleteMessage = 'deleting...';
                     var promiseDelete = productService.promiseDeleteProduct($scope.tmpProduct);
                     promiseDelete.then(function(response){
-                        updateDeleteStatus = 'success';
+                        $scope.updateDeleteStatus = 'success';
+                        $scope.updateDeleteMessage = 'successfully deleted';
                         $scope.products = productService.getProducts();
                     },
                     function(response){
-                        updateDeleteStatus = 'error';
+                        $scope.updateDeleteStatus = 'error';
                         if(response.data === null)
                             $scope.updateDeleteMessage = 'WebService not found';
                         else
@@ -48,15 +62,16 @@ angular.module('product', [])
                     })
                 }
                 $scope.updateTmpProduct = function(){
-                    updateDeleteStatus = '';
+                    $scope.updateDeleteStatus = '';
                     $scope.updateDeleteMessage = 'updating...';
                     var promiseUpdate = productService.promiseUpdateProduct($scope.tmpProduct);
                     promiseUpdate.then(function(response){
-                        updateDeleteStatus = 'success';
+                        $scope.updateDeleteStatus = 'success';
+                        $scope.updateDeleteMessage = 'successfully updated';
                         $scope.products = productService.getProducts();
                     },
                     function(response){
-                        updateDeleteStatus = 'error';
+                        $scope.updateDeleteStatus = 'error';
                         if(response.data === null)
                             $scope.updateDeleteMessage = 'WebService not found';
                         else
