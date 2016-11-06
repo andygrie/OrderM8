@@ -9,7 +9,11 @@ angular.module('organiser', [])
                     $scope.updateDeleteMessage = 'successfully loaded';
                     $scope.updateDeleteStatus = 'success';
                 }, function(response){
-                    console.log(response.data.errorMessage);
+                    $scope.updateDeleteStatus = 'error';
+                        if(response.data === null)
+                            $scope.updateDeleteMessage = 'WebService not found';
+                        else
+                            $scope.updateDeleteMessage = response.data.errorMessage;
                 })
                 $scope.insertUser = function(){
                     $scope.insertStatus = '';
