@@ -10,10 +10,10 @@ angular.module('table', [])
                     $scope.updateDeleteStatus = 'success';
                 }, function(response){
                     $scope.updateDeleteStatus = 'error';
-                        if(response.data === null)
-                            $scope.updateDeleteMessage = 'WebService not found';
-                        else
-                            $scope.updateDeleteMessage = response.data.errorMessage;
+                    if(response.data === null)
+                        $scope.updateDeleteMessage = 'WebService not found';
+                    else
+                        $scope.updateDeleteMessage = response.data.errorMessage;
                 })
                 $scope.insertTable = function(){
                     $scope.insertStatus = '';
