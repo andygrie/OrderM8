@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.MediaType;
 
+import edu.htl.orderm8.Authentication.Secured;
 import edu.htl.orderm8.Data.Objects.Product;
 import edu.htl.orderm8.Service.ProductService;
 
@@ -24,6 +25,7 @@ public class ProductResource {
 	private ProductService productService = new ProductService();
 	
 	@GET
+	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProducts() {
 		GenericEntity<List<Product>> entity = new GenericEntity<List<Product>>(productService.getProducts()) {};
@@ -31,6 +33,7 @@ public class ProductResource {
 	}
 
     @GET
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Product getProduct(@PathParam("id") long id) {
@@ -38,6 +41,7 @@ public class ProductResource {
     }
 
     @POST
+    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addProduct(Product p) {
@@ -46,6 +50,7 @@ public class ProductResource {
     }
     
     @PUT
+    @Secured
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,6 +60,7 @@ public class ProductResource {
     }
     
     @DELETE
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProduct(@PathParam("id") long id) {

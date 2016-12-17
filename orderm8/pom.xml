@@ -55,7 +55,12 @@
         	<artifactId>ojdbc6</artifactId>
         	<version>11.2.0.4</version>
         </dependency>
-        
+
+        <dependency>
+        	<groupId>javax.enterprise</groupId>
+        	<artifactId>cdi-api</artifactId>
+        	<version>1.2</version>
+        </dependency>
     </dependencies>
     <properties>
         <jersey.version>2.23.2</jersey.version>

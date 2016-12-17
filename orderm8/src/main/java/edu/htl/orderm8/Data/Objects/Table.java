@@ -5,18 +5,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Table {
 	private long idTable;
-	private double x;
-	private double y;
+	private double xLL;
+	private double yLL;
+	
+	private double xUR;
+	private double yUR;
 	
 	public Table() {
 		
 	}
 	
-	public Table(long idTable, double x, double y) {
+	public Table(long idTable, double xll, double yll, double xur, double yur) {
 		super();
 		this.idTable = idTable;
-		this.x = x;
-		this.y = y;
+		this.xLL = xll;
+		this.yLL = yll;
+		
+		this.xUR = xur;
+		this.yUR = yur;
 	}
 
 	public long getIdTable() {
@@ -27,25 +33,40 @@ public class Table {
 		this.idTable = idTable;
 	}
 
-	public double getX() {
-		return x;
+	public double getxLL() {
+		return xLL;
 	}
 
-	public void setX(double x) {
-		this.x = x;
+	public void setxLL(double xLL) {
+		this.xLL = xLL;
 	}
 
-	public double getY() {
-		return y;
+	public double getyLL() {
+		return yLL;
 	}
 
-	public void setY(double y) {
-		this.y = y;
+	public void setyLL(double yLL) {
+		this.yLL = yLL;
+	}
+
+	public double getxUR() {
+		return xUR;
+	}
+
+	public void setxUR(double xUR) {
+		this.xUR = xUR;
+	}
+
+	public double getyUR() {
+		return yUR;
+	}
+
+	public void setyUR(double yUR) {
+		this.yUR = yUR;
 	}
 
 	@Override
 	public String toString() {
-		return "Table [idTable=" + idTable + ", x=" + x + ", y=" + y + "]";
+		return "Table [idTable=" + idTable + ", xLL=" + xLL + ", yLL=" + yLL + ", xUR=" + xUR + ", yUR=" + yUR + "]";
 	}
-	
 }

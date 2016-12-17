@@ -20,7 +20,7 @@ import edu.htl.orderm8.Service.UserService;
 
 @Path("user")
 public class UserResource {
-private UserService userService = new UserService();
+	private UserService userService = new UserService();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

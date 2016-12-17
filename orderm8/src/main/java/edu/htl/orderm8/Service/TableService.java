@@ -1,6 +1,7 @@
 package edu.htl.orderm8.Service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.InternalServerErrorException;
@@ -31,6 +32,17 @@ public class TableService {
 	public Table insertTable(Table t) {
 		try {
 			return Database.getInstance().insertTable(t);
+		} catch(SQLException exception)  {
+			if(exception.getErrorCode() == 1)
+				throw new ConflictException("");
+			else 
+				throw new InternalServerErrorException("Database error " + exception.getMessage());
+		}
+	}
+	
+	public void insertTables(ArrayList<Table> tables) {
+		try {
+			Database.getInstance().insertTables(tables);
 		} catch(SQLException exception)  {
 			if(exception.getErrorCode() == 1)
 				throw new ConflictException("");

@@ -1,18 +1,22 @@
 package edu.htl.orderm8.Data.Database;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import edu.htl.orderm8.Data.Dao.BillDao;
 import edu.htl.orderm8.Data.Dao.OrderEntryDao;
 import edu.htl.orderm8.Data.Dao.ProductDao;
 import edu.htl.orderm8.Data.Dao.ProductTypeDao;
+import edu.htl.orderm8.Data.Dao.StatisticDao;
 import edu.htl.orderm8.Data.Dao.TableDao;
 import edu.htl.orderm8.Data.Dao.UserDao;
 import edu.htl.orderm8.Data.Objects.Bill;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
 import edu.htl.orderm8.Data.Objects.Product;
 import edu.htl.orderm8.Data.Objects.ProductType;
+import edu.htl.orderm8.Data.Objects.Statistic;
 import edu.htl.orderm8.Data.Objects.Table;
 import edu.htl.orderm8.Data.Objects.User;
 
@@ -86,6 +90,10 @@ public class Database {
 		return TableDao.insertTable(t);
 	}
 	
+	public int insertTables(ArrayList<Table> tables) throws SQLException {
+		return TableDao.insertTables(tables);
+	}
+	
 	public void updateTable (long id, Table t) throws SQLException {
 		TableDao.updateTable(id, t);
 	}
@@ -139,6 +147,10 @@ public class Database {
 	
 	
 	/*                  User                      */
+	public User findUser(String username, String password) throws SQLException {
+		return UserDao.findUser(username, password);
+	}
+	
 	public List<User> getUsers() {
 		return UserDao.getUsers();
 	}
@@ -157,6 +169,12 @@ public class Database {
 	
 	public void deleteUser(long id) throws SQLException {
 		UserDao.deleteUser(id);
+	}
+	/*--------------------------------------------*/
+	
+	/*                 Statistic                   */
+	public Statistic getStatistic() throws SQLException {
+		return StatisticDao.getStatistic();
 	}
 	/*--------------------------------------------*/
 }

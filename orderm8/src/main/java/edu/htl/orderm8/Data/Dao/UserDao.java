@@ -21,6 +21,7 @@ public class UserDao {
 	
 	private static final String SQL_SELECT_ALL = "SELECT * FROM " + TB_NAME;
 	private static final String SQL_SELECT_BY_ID = SQL_SELECT_ALL + " WHERE " + FIELD_IDUSER + " = ?";
+	private static final String SQL_SELECT_USER_PW = SQL_SELECT_ALL + " WHERE " + FIELD_USERNAME + " = ? AND " + FIELD_PASSWORD + "  = ?";
 	private static final String SQL_INSERT = "INSERT INTO " + TB_NAME + " VALUES ("+ SEQ_NAME +".NEXTVAL, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE " + TB_NAME + " SET " + FIELD_USERNAME + "=?, "+ FIELD_PASSWORD + "=?, " + FIELD_UTYPE + "=? WHERE " + FIELD_IDUSER + "=?";
 	private static final String SQL_DELETE = "DELETE FROM " + TB_NAME + " WHERE " + FIELD_IDUSER + "=?";
@@ -43,6 +44,7 @@ public class UserDao {
 			return -1;
 	}
 	
+	/* Select */
 	public static List<User> getUsers() {
 		List<User> lUser = new Vector<User>();
 		
@@ -85,6 +87,19 @@ public class UserDao {
 		}
 		
 		return u;
+	}
+
+	public static User findUser(String username, String password) throws SQLException {
+		Connection conn = OracleDatabase.getConnection();
+		PreparedStatement prepStmt = conn.prepareStatement(SQL_SELECT_USER_PW);
+		prepStmt.setString(1, username);
+		prepStmt.setString(2, password);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		if(rs.next())
+			return getUser(rs);
+		else
+			return null;
 	}
 	
 	/* INSERT */
