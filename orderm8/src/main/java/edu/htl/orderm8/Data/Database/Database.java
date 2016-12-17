@@ -132,6 +132,14 @@ public class Database {
 		return OrderEntryDao.getOrderEntry(idOrderEntry);
 	}
 	
+	public List<OrderEntry> getOrderEntriesOpenByTable(User user, long idtable) {
+		return OrderEntryDao.getOrderEntriesOpenByTable(user, idtable);
+	}
+	
+	public List<OrderEntry> getOrderEntriesOpen(User user) {
+		return OrderEntryDao.getOrderEntriesOpen(user);
+	}
+	
 	public OrderEntry insertOrderEntry(OrderEntry oe) throws SQLException {
 		return OrderEntryDao.insertOrderEntry(oe);
 	}

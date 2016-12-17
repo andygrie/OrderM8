@@ -34,14 +34,13 @@ public class OrderEntryResource {
 	@GET
 	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getOrderEntries( @Context SecurityContext securityContext) {
-		UserPrincipal up = (UserPrincipal)securityContext.getUserPrincipal();
+	public Response getOrderEntries() {
 		GenericEntity<List<OrderEntry>> entity = new GenericEntity<List<OrderEntry>>(orderEntryService.getOrderEntries()) {};
         return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
 	}
 
     @GET
-	@Secured
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public OrderEntry getOrderEntry(@PathParam("id") long id) {
@@ -74,5 +73,27 @@ public class OrderEntryResource {
     public Response deleteOrderEntry(@PathParam("id") long id) {
     	orderEntryService.deleteOrderEntry(id);
     	return Response.status(Status.NO_CONTENT).build();
+    }
+    
+    @GET
+    @Secured
+    @Path("/open")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrderEntriesOpen( @Context SecurityContext securityContext, @PathParam("idtable") long idtable) {
+		UserPrincipal up = (UserPrincipal)securityContext.getUserPrincipal();
+		
+		GenericEntity<List<OrderEntry>> entity = new GenericEntity<List<OrderEntry>>(orderEntryService.getOrderEntriesOpen(up.getUser())) {};
+        return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
+    }
+    
+    @GET
+    @Secured
+    @Path("/open/{idtable}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrderEntriesOpenByTable( @Context SecurityContext securityContext, @PathParam("idtable") long idtable) {
+		UserPrincipal up = (UserPrincipal)securityContext.getUserPrincipal();
+		
+		GenericEntity<List<OrderEntry>> entity = new GenericEntity<List<OrderEntry>>(orderEntryService.getOrderEntriesOpenByTable(up.getUser(), idtable)) {};
+        return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
     }
 }

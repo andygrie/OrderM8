@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import edu.htl.orderm8.Authentication.Secured;
 import edu.htl.orderm8.Data.Objects.Bill;
 import edu.htl.orderm8.Service.BillService;
 
@@ -22,6 +23,7 @@ public class BillResource {
 	private BillService billService = new BillService();
 	
 	@GET
+	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBills() {
 		GenericEntity<List<Bill>> entity = new GenericEntity<List<Bill>>(billService.getBills()) {};
@@ -29,6 +31,7 @@ public class BillResource {
 	}
 
     @GET
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Bill getBill(@PathParam("id") long id) {
@@ -36,6 +39,7 @@ public class BillResource {
     }
     
     @POST
+    @Secured
     @Produces(MediaType.APPLICATION_JSON)
     public Response addBill() {
     	Bill b = billService.insertBill();
@@ -43,6 +47,7 @@ public class BillResource {
     }
     
     @DELETE
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteBill(@PathParam("id") long id) {

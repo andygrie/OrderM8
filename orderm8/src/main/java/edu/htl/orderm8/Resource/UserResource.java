@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import edu.htl.orderm8.Authentication.Secured;
 import edu.htl.orderm8.Data.Objects.User;
 import edu.htl.orderm8.Service.UserService;
 
@@ -23,6 +24,7 @@ public class UserResource {
 	private UserService userService = new UserService();
 	
 	@GET
+	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsers() {
 		GenericEntity<List<User>> entity = new GenericEntity<List<User>>(userService.getUsers()) {};
@@ -30,6 +32,7 @@ public class UserResource {
 	}
 
     @GET
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("id") long id) {
@@ -37,6 +40,7 @@ public class UserResource {
     }
     
     @POST
+    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addUser(User u) {
@@ -45,6 +49,7 @@ public class UserResource {
     }
     
     @PUT
+    @Secured
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +59,7 @@ public class UserResource {
     }
     
     @DELETE
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteUser(@PathParam("id") long id) {

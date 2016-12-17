@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import edu.htl.orderm8.Data.Database.OracleDatabase;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
+import edu.htl.orderm8.Data.Objects.User;
 
 public class OrderEntryDao {
 	/* 								SQL 								*/
@@ -25,6 +27,8 @@ public class OrderEntryDao {
 	private static final String FIELD_COUPON = "COUPON";
 	
 	private static final String SQL_SELECT_ALL = "SELECT * FROM " + TB_NAME;
+	private static final String SQL_SELECT_ALL_OPEN = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0";
+	private static final String SQL_SELECT_ALL_OPEN_BY_TABLE = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0 AND " + FIELD_FKTABLE + "=?";
 	private static final String SQL_SELECT_BY_ID = SQL_SELECT_ALL + " WHERE " + FIELD_IDORDERENTRY + " = ?";
 	private static final String SQL_INSERT = "INSERT INTO " + TB_NAME + " VALUES("+ SEQ_NAME +".NEXTVAL, ?, ?, ?, NULL, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE " + TB_NAME + " SET " + FIELD_FKPRODUCT + " =?, "+ FIELD_FKTABLE + " =?, "+ FIELD_FKUSER + " =?, "+ FIELD_FKBILL + " =?, "+ FIELD_NOTE + " =?, "+ FIELD_CANCELLED + " =?, " + FIELD_COUPON + " =? WHERE " + FIELD_IDORDERENTRY + " =?";
@@ -71,6 +75,53 @@ public class OrderEntryDao {
 		}
 		
 		return lOrderEntry;
+	}
+	
+	public static List<OrderEntry> getOrderEntriesOpenByTable(User user, long idtable) {
+		List<OrderEntry> lOrderEntry = new ArrayList<OrderEntry>();
+		
+		try {
+			Connection conn = OracleDatabase.getConnection();
+			
+			PreparedStatement prepStmt = conn.prepareStatement(SQL_SELECT_ALL_OPEN_BY_TABLE);
+			prepStmt.setLong(1, user.getIdUser());
+			prepStmt.setLong(2, idtable);
+			ResultSet rs = prepStmt.executeQuery();
+			
+			while (rs.next()) {
+				OrderEntry o = getOrderEntry(rs);
+				lOrderEntry.add(o);
+			}
+			
+			conn.close();
+		} catch(Exception e) {
+			System.out.println("exception: " + e.getMessage());
+		}
+		
+		return lOrderEntry;		
+	}
+
+	public static List<OrderEntry> getOrderEntriesOpen(User user) {
+		List<OrderEntry> lOrderEntry = new ArrayList<OrderEntry>();
+		
+		try {
+			Connection conn = OracleDatabase.getConnection();
+			
+			PreparedStatement prepStmt = conn.prepareStatement(SQL_SELECT_ALL_OPEN);
+			prepStmt.setLong(1, user.getIdUser());
+			ResultSet rs = prepStmt.executeQuery();
+			
+			while (rs.next()) {
+				OrderEntry o = getOrderEntry(rs);
+				lOrderEntry.add(o);
+			}
+			
+			conn.close();
+		} catch(Exception e) {
+			System.out.println("exception: " + e.getMessage());
+		}
+		
+		return lOrderEntry;		
 	}
 	
 	public static OrderEntry getOrderEntry(long idOrderEntry) {

@@ -39,6 +39,16 @@ public class ProductResource {
     public Product getProduct(@PathParam("id") long id) {
     	return productService.getProduct(id);
     }
+    
+    @GET
+    @Secured
+    @Path("/type/{prodtype}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProductsByProductType(@PathParam("prodtype") long prodtype) {
+    	System.out.println(prodtype);
+		GenericEntity<List<Product>> entity = new GenericEntity<List<Product>>(productService.getProducts()) {};
+        return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
+    }
 
     @POST
     @Secured

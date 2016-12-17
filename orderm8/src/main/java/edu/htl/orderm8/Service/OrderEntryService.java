@@ -7,6 +7,7 @@ import javax.ws.rs.InternalServerErrorException;
 
 import edu.htl.orderm8.Data.Database.Database;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
+import edu.htl.orderm8.Data.Objects.User;
 import edu.htl.orderm8.Exception.ConflictException;
 import edu.htl.orderm8.Exception.DataNotFoundException;
 
@@ -26,6 +27,14 @@ public class OrderEntryService {
 	
 	public List<OrderEntry> getOrderEntries() {
 		return Database.getInstance().getOrderEntries();
+	}
+	
+	public List<OrderEntry> getOrderEntriesOpenByTable(User user, long idtable) {
+		return Database.getInstance().getOrderEntriesOpenByTable(user, idtable);
+	}
+	
+	public List<OrderEntry> getOrderEntriesOpen(User user) {
+		return Database.getInstance().getOrderEntriesOpen(user);
 	}
 	
 	public OrderEntry insertOrderEntry(OrderEntry pt) {

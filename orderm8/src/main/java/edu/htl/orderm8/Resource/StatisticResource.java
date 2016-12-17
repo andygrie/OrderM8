@@ -5,8 +5,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.sun.research.ws.wadl.Application;
-
 import edu.htl.orderm8.Authentication.Secured;
 import edu.htl.orderm8.Data.Objects.Statistic;
 import edu.htl.orderm8.Service.StatisticService;

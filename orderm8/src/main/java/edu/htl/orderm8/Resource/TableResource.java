@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import edu.htl.orderm8.Authentication.Secured;
 import edu.htl.orderm8.Data.Objects.Table;
 import edu.htl.orderm8.Service.TableService;
 
@@ -24,6 +25,7 @@ public class TableResource {
 	private TableService tableService = new TableService();
 	
 	@GET
+	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTables() {
 		GenericEntity<List<Table>> entity = new GenericEntity<List<Table>>(tableService.getTables()) {};
@@ -31,6 +33,7 @@ public class TableResource {
 	}
 	
     @GET
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Table geTable(@PathParam("id") long id) {
@@ -38,6 +41,7 @@ public class TableResource {
     }
     
     @POST
+    @Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addTable(Table t) {
@@ -46,6 +50,7 @@ public class TableResource {
     }
     
     @PUT
+    @Secured
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,6 +60,7 @@ public class TableResource {
     }
     
     @DELETE
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTable(@PathParam("id") long id) {
