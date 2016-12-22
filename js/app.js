@@ -8,19 +8,22 @@ app = angular.module('starter', [
                                  'spatial',
                                  'product',
                                  'type',
-                                 'services'
+                                 'services',
+                                 'login'
 ]);
-app.controller('ctrl', ['$scope',
-                        function ($scope) {
-                            $scope.page = '';
+app.controller('ctrl', ['$scope', '$window', '$location',
+                        function ($scope, $window, $location) {
 
                             $scope.isPageSelected = function(page){
-                                return page == $scope.page;
+                                return $location.url() == page;
+                            }
+
+                            $scope.isInLoginScreen = function(){
+                                return $location.url() == '/loginView';
                             }
                         }]);
 
-app.constant('URL', 'http://192.168.192.119:8085/orderm8/api');
-
+app.constant('URL', 'http://192.168.193.235:8085/orderm8/api');
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/waiterView', {
@@ -50,6 +53,10 @@ app.config(function ($routeProvider) {
         .when('/spatialView', {
             templateUrl: 'templates/spatial.html',
             controller: 'spatialCtrl'
+        })
+        .when('/loginView', {
+            templateUrl: 'templates/login.html',
+            controller: 'loginCtrl'
         })
         .otherwise('/');
 });

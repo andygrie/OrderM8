@@ -1,7 +1,21 @@
-﻿body{
+﻿html, body{
     font-family: verdana;
     margin: 0px;
     padding: 0px;
+    height: 100%;
+    width: 100%;
+}
+h1{
+    font-size: 90px!important;
+}
+
+.filledBody{
+    background-color: #23282e;
+}
+
+.centeredContent{
+    margin: 0;
+    width: 100%;
 }
 
 .nav-side-menu li a.activeMenuEntry{

@@ -1,0 +1,13 @@
+<div class="loginBackground">
+    <div class="login-area">
+        <h1>Login</h1>
+        <form name="formLogin">
+            <label>Username: </label>
+            <input name="username" type="text" id = "credentials" ng-model="credentials.username" required>
+            <label>Password:</label>
+            <input name="password" type="password" id = "password" ng-model="credentials.password" required>
+            <input id="btnLogin" class="btn btn-danger" type="submit" ng-disabled="!formLogin.$valid" ng-click="logIn()"
+                    value="Log in">
+        </form>
+    </div>
+</div>

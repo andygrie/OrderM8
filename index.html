@@ -13,6 +13,8 @@
     <link href="css/type.css" rel="stylesheet"/>
     <link href="css/table.css" rel="stylesheet"/>
     <link href="css/spatial.css" rel="stylesheet"/>
+    <link href="css/login.css" rel="stylesheet"/>
+    <link href="css/overview.css" rel="stylesheet"/>
 
 
 
@@ -30,56 +32,57 @@
     <script src="js/spatial.js" type="text/javascript"></script>
     <script src="js/overview.js" type="text/javascript"></script>
     <script src="js/services.js" type="text/javascript"></script>
+    <script src="js/login.js" type="text/javascript"></script>
 </head>
-<body ng-app="starter" ng-controller="ctrl">
+<body ng-app="starter" ng-controller="ctrl" ng-class="{ 'filledBody': isInLoginScreen(), '': !isInLoginScreen() }">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3" ng-hide="isInLoginScreen()">
                 <div class="nav-side-menu">
                     <div class="brand">OrderM8</div>
                     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#overview"></i>
                     <div class="menu-list">
                         <ul id="overview" class="menu-content collapse out">
                             <li ng-class="{ 'active': isPageSelected('overview') , '': !isPageSelected('overview')  }">
-                                <a href="#overviewView" ng-click="page = 'overview'" ng-class="{ 'activeMenuEntry': isPageSelected('overview') , '': !isPageSelected('overview')  }">
+                                <a href="#overviewView" ng-click="page = 'overview'" ng-class="{ 'activeMenuEntry': isPageSelected('/overviewView') , '': !isPageSelected('/overviewView')  }">
                                     <i class="fa fa-list"></i> Overview
                                 </a>
                             </li>
 
                             <li data-toggle="collapse" data-target="#users" class="collapsed">
-                                <a ng-class="{ 'activeMenuEntry': isPageSelected('waiter') || isPageSelected('organiser') , '': !(isPageSelected('waiter') ||  isPageSelected('organiser')) }"><i class="fa fa-user"></i> User <span class="arrow"></span></a>
+                                <a ng-class="{ 'activeMenuEntry': isPageSelected('/waiterView') || isPageSelected('/organiserView') , '': !(isPageSelected('/waiterView') ||  isPageSelected('/organiserView')) }"><i class="fa fa-user"></i> User <span class="arrow"></span></a>
                             </li>
                             <li>
                                 <ul class="sub-menu collapse" id="users">
-                                    <li ng-class="{ 'active': isPageSelected('waiter') , '': !isPageSelected('waiter')  }"><a href="#waiterView" ng-click="page = 'waiter'">Waiter</a></li>
-                                    <li ng-class="{ 'active': isPageSelected('organiser') , '': !isPageSelected('organiser')  }"><a href="#organiserView" ng-click="page = 'organiser'">Organiser</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('/waiterView') , '': !isPageSelected('/waiterView')  }"><a href="#waiterView" ng-click="page = 'waiter'">Waiter</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('/organiserView') , '': !isPageSelected('/organiserView')  }"><a href="#organiserView" ng-click="page = 'organiser'">Organiser</a></li>
                                 </ul>
                             </li>
 
                             <li data-toggle="collapse" data-target="#products" class="collapsed">
-                                <a ng-class="{ 'activeMenuEntry': isPageSelected('product') || isPageSelected('type') , '': !(isPageSelected('product') ||  isPageSelected('type')) }"><i class="fa fa-cutlery"></i> Products <span class="arrow"></span></a>
+                                <a ng-class="{ 'activeMenuEntry': isPageSelected('/productView') || isPageSelected('/typeView') , '': !(isPageSelected('/productView') ||  isPageSelected('/typeView')) }"><i class="fa fa-cutlery"></i> Products <span class="arrow"></span></a>
                             </li>
                             <li>
                                 <ul class="sub-menu collapse" id="products">
-                                    <li ng-class="{ 'active': isPageSelected('product') , '': !isPageSelected('product')  }"><a href="#productView" ng-click="page = 'product'">Product</a></li>
-                                    <li ng-class="{ 'active': isPageSelected('type') , '': !isPageSelected('type')  }"><a href="#typeView" ng-click="page = 'type'">Type</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('/productView') , '': !isPageSelected('/productView')  }"><a href="#productView" ng-click="page = 'product'">Product</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('/typeView') , '': !isPageSelected('/typeView')  }"><a href="#typeView" ng-click="page = 'type'">Type</a></li>
                                 </ul>
                             </li>
 
                             <li data-toggle="collapse" data-target="#structure" class="collapsed">
-                                <a ng-class="{ 'activeMenuEntry': isPageSelected('table') || isPageSelected('spatial') , '': !(isPageSelected('table') ||  isPageSelected('spatial')) }"><i class="fa fa-home"></i> Structure <span class="arrow"></span></a>
+                                <a ng-class="{ 'activeMenuEntry': isPageSelected('/tableView') || isPageSelected('/spatialView') , '': !(isPageSelected('/tableView') ||  isPageSelected('/spatialView')) }"><i class="fa fa-home"></i> Structure <span class="arrow"></span></a>
                             </li>
                             <li>
                                 <ul class="sub-menu collapse" id="structure">
-                                    <li ng-class="{ 'active': isPageSelected('table') , '': !isPageSelected('table')  }"><a href="#tableView" ng-click="page = 'table'">Table</a></li>
-                                    <li ng-class="{ 'active': isPageSelected('spatial') , '': !isPageSelected('spatial')  }"><a href="#spatialView" ng-click="page = 'spatial'">Spatial Orientation</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('/tableView') , '': !isPageSelected('/tableView')  }"><a href="#tableView" ng-click="page = 'table'">Table</a></li>
+                                    <li ng-class="{ 'active': isPageSelected('/spatialView') , '': !isPageSelected('/spatialView')  }"><a href="#spatialView" ng-click="page = 'spatial'">Spatial Orientation</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-9 col-sm-offset-2" ng-view></div>
+            <div class="col-sm-9 col-sm-offset-2" ng-class="{ 'centeredContent': isInLoginScreen(), '': !isInLoginScreen() }" ng-view></div>
         </div>
     </div>
 </body>

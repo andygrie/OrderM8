@@ -9,5 +9,13 @@
     <h1>{{title}}</h1>
     <canvas id="myCanvas" height="500px">  
     </canvas>
+    <button type="submit" ng-click="addTable()" class="btn btn-success">Add table</button>
+    <form name="scaleForm">
+        <label for="selectScale"> Select max. Height: </label>
+        <select name="selectScale" id="selectScale"
+            ng-options="option.name for option in scales.availableOptions track by option.value"
+            ng-model="scales.selectedOption" ng-change="draw()"></select>
+    </form>
+    <button type="submit" ng-click="saveChanges(tablesValid)" ng-disabled="!tablesValid" class="btn btn-success">Save Changes</button>
 </body>
 </html>

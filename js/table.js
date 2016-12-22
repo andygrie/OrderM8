@@ -37,8 +37,10 @@ angular.module('table', [])
                 $scope.setTmpTable = function(table){
                     $scope.tmpTable = {
                         idTable : table.idTable,
-                        x : table.x,
-                        y : table.y    
+                        xLL : table.xLL,
+                        yLL : table.yLL,
+                        xUR : table.xUR,
+                        yUR : table.yUR    
                     };
                 }
                 $scope.deleteTmpTable = function(){

@@ -7,5 +7,21 @@
 </head>
 <body>
     <h1>{{title}}</h1>
+    <p class="overviewHeading"><i class="fa fa-money" aria-hidden="true"></i>Finances</p>
+    <ul>
+        <li class="overviewlistitem">Bills stored: {{statistic.cntBills}}</li>
+        <li class="overviewlistitem">Open Bills: {{statistic.open_bills}}</li>
+        <li class="overviewlistitem">Profit: €{{statistic.profit}}</li>
+    </ul>
+    <p class="overviewHeading"><i class="fa fa-cutlery" aria-hidden="true"></i>Products</p>
+    <ul>
+        <li class="overviewlistitem">Products stored: {{statistic.cntProducts}}</li>
+        <li class="overviewlistitem">Product Types stored: {{statistic.cntProductTypes}}</li>
+    </ul>
+    <p class="overviewHeading"><i class="fa fa-list" aria-hidden="true"></i>Miscellaneous</p>
+    <ul>
+    <li class="overviewlistitem">Tables stored: {{statistic.cntTables}}</li>
+    <li class="overviewlistitem">Users stored: {{statistic.cntUsers}}</li>
+    </ul>
 </body>
 </html>

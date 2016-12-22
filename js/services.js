@@ -1,6 +1,29 @@
 angular.module('services', [])
 
-.factory('productTypeService', ['$http', '$q', 'URL', function($http, $q, URL){
+.factory('statisticService', ['$http', '$q', 'URL', '$window', function($http, $q, URL, $window){
+    var service = {
+        promiseGetStatistic : promiseGetStatistic
+    }
+    return service;
+
+    function promiseGetStatistic(){
+        return $q(function(resolve, reject){
+            $http({
+                method: 'GET',
+                url: URL + '/statistic',
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
+              }).then(function successCallback(response) {
+                  resolve(response.data);
+                }, function errorCallback(response) {
+                reject(response);
+              });
+        });
+    }
+}])
+
+.factory('productTypeService', ['$http', '$q', 'URL', '$window', function($http, $q, URL, $window){
     var productTypes = [];
     var service = {
         getProductTypes : getProductTypes,
@@ -19,7 +42,10 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: URL + '/producttype'
+                url: URL + '/producttype',
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
               }).then(function successCallback(response) {
                   productTypes = response.data;
                   resolve("successfully");
@@ -34,7 +60,10 @@ angular.module('services', [])
             var req = {
                  method: 'POST',
                  url: URL + '/producttype',
-                 data: producttype
+                 data: producttype,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
             }
             $http(req).then(
             function successCallback(response){
@@ -50,7 +79,10 @@ angular.module('services', [])
                 var req = {
                      method: 'PUT',
                      url: URL + '/producttype/' + producttype.idType,
-                     data: producttype
+                     data: producttype,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -67,7 +99,10 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: URL + '/producttype/' + producttype.idType
+                     url: URL + '/producttype/' + producttype.idType,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -93,7 +128,7 @@ angular.module('services', [])
     }
 }])
 
-.factory('productService', ['$http', '$q','URL', function($http, $q, URL){
+.factory('productService', ['$http', '$q','URL', '$window', function($http, $q, URL, $window){
     var products = [];
     var service = {
         getProducts : getProducts,
@@ -112,7 +147,10 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: URL + '/product'
+                url: URL + '/product',
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
               }).then(function successCallback(response) {
                   products = response.data;
                   resolve("successfully");
@@ -127,7 +165,10 @@ angular.module('services', [])
             var req = {
                  method: 'POST',
                  url: URL + '/product',
-                 data: product
+                 data: product,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
             }
             $http(req).then(
             function successCallback(response){
@@ -144,7 +185,10 @@ angular.module('services', [])
                 var req = {
                      method: 'PUT',
                      url: URL + '/product/' + product.idProduct,
-                     data: product
+                     data: product,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -164,7 +208,10 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: URL + '/product/' + product.idProduct
+                     url: URL + '/product/' + product.idProduct,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -190,14 +237,15 @@ angular.module('services', [])
     }
 }])
 
-.factory('userService', ['$http', '$q', 'URL', function($http, $q, URL){
+.factory('userService', ['$http', '$q', 'URL', '$window', function($http, $q, URL, $window){
     var users = [];
     var service = {
         getUsers : getUsers,
         promiseInsertUser : promiseInsertUser,
         promiseUpdateUser : promiseUpdateUser,
         promiseGetUsers : promiseGetUsers,
-        promiseDeleteUser : promiseDeleteUser
+        promiseDeleteUser : promiseDeleteUser,
+        promiseLogin : promiseLogin
       }
     return service;
 
@@ -209,7 +257,10 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: URL + '/user'
+                url: URL + '/user',
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
               }).then(function successCallback(response) {
                   users = response.data;
                   resolve("successfully");
@@ -225,7 +276,10 @@ angular.module('services', [])
             var req = {
                  method: 'POST',
                  url: URL + '/user',
-                 data: user
+                 data: user,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
             }
             $http(req).then(
             function successCallback(response){
@@ -242,7 +296,10 @@ angular.module('services', [])
                 var req = {
                      method: 'PUT',
                      url: URL + '/user/' + user.idUser,
-                     data: user
+                     data: user,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -259,7 +316,10 @@ angular.module('services', [])
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: URL + '/user/' + user.idUser
+                     url: URL + '/user/' + user.idUser,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
@@ -283,16 +343,39 @@ angular.module('services', [])
         }
         return index;
     }
+    function promiseLogin(credentials){
+        console.log(credentials);
+        return $q(function(resolve, reject){
+            var req = {
+                 method: 'POST',
+                 url: URL + '/auth',
+                 data: 'username=' + credentials.username + '&password=' + credentials.password,
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+            $http(req).then(
+            function successCallback(response){
+                $window.localStorage.setItem('token', response.data.token);
+                console.log($window.localStorage.getItem('token'));
+                resolve("successfully");
+            }, function errorCallback(response){
+                reject(response);
+            });
+        })
+    }
 }])
 
-.factory('tableService', ['$http', '$q', 'URL', function($http, $q, URL){
+.factory('tableService', ['$http', '$q', 'URL', '$window', function($http, $q, URL, $window){
     var tables = [];
     var service = {
         getTables : getTables,
         promiseInsertTable : promiseInsertTable,
         promiseUpdateTable : promiseUpdateTable,
         promiseGetTables : promiseGetTables,
-        promiseDeleteTable : promiseDeleteTable
+        promiseDeleteTable : promiseDeleteTable,
+        promiseInsertMultipleTables : promiseInsertMultipleTables,
+        promiseUpdateMultipleTables : promiseUpdateMultipleTables
       }
     return service;
 
@@ -304,7 +387,10 @@ angular.module('services', [])
         return $q(function(resolve, reject){
             $http({
                 method: 'GET',
-                url: URL + '/table'
+                url: URL + '/table',
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
               }).then(function successCallback(response) {
                   tables = response.data;
                   resolve("successfully");
@@ -320,7 +406,10 @@ angular.module('services', [])
             var req = {
                  method: 'POST',
                  url: URL + '/table',
-                 data: table
+                 data: table,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
             }
             $http(req).then(
             function successCallback(response){
@@ -331,30 +420,76 @@ angular.module('services', [])
             });
         });
     }
-    function promiseUpdateTable(table){
-            console.log(table);
-            return $q(function(resolve, reject){
-                var req = {
-                     method: 'PUT',
-                     url: URL + '/table/' + table.idTable,
-                     data: table
+    function promiseInsertMultipleTables(tables){
+        return $q(function(resolve, reject){
+            var req = {
+                 method: 'POST',
+                 url: URL + '/table/multiple',
+                 data: tables,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
                 }
-                $http(req).then(
-                function successCallback(response){
-                    var index = getIndexOfTable(table.idTable);
-                    tables[index].x = table.x;
-                    tables[index].y = table.y;
-                    resolve("successfully updated");
-                }, function errorCallback(response){
-                    reject(response);
-                });
+            }
+            $http(req).then(
+            function successCallback(response){
+                console.log(response.data);
+                resolve(response.data);
+            }, function errorCallback(response){
+                reject(response);
             });
-        }
+        });
+    }
+
+    function promiseUpdateTable(table){
+        console.log(table);
+        return $q(function(resolve, reject){
+            var req = {
+                    method: 'PUT',
+                    url: URL + '/table/' + table.idTable,
+                    data: table,
+            headers: {
+                'x-access-token': $window.localStorage.getItem('token')
+            }
+            }
+            $http(req).then(
+            function successCallback(response){
+                var index = getIndexOfTable(table.idTable);
+                tables[index].xLL = table.xLL;
+                tables[index].yLL = table.yLL;
+                tables[index].xUR = table.xUR;
+                tables[index].yUR = table.yUR;
+                resolve("successfully updated");
+            }, function errorCallback(response){
+                reject(response);
+            });
+        });
+    }
+    function promiseUpdateMultipleTables(tables){
+        return $q(function(resolve, reject){
+            var req = {
+                    method: 'PUT',
+                    url: URL + '/table/multiple',
+                    data: tables,
+                    headers: {
+                        'x-access-token': $window.localStorage.getItem('token')
+                    }
+            }
+            $http(req).then(
+            function successCallback(response){
+                resolve("successfully updated");
+            }, function errorCallback(response){
+                reject(response);
+            });
+        });
+    }
     function promiseDeleteTable(table){
             return $q(function(resolve, reject){
                 var req = {
                      method: 'DELETE',
-                     url: URL + '/table/' + table.idTable
+                     url: URL + '/table/' + table.idTable,
+                headers: {
+                    'x-access-token': $window.localStorage.getItem('token')
+                }
                 }
                 $http(req).then(
                 function successCallback(response){
