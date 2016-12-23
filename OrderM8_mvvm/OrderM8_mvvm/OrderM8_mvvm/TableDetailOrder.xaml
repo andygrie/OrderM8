@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrderM8_mvvm.TableDetailOrder"
+             x:Name="TableDetailOrderPage">
+  <StackLayout Orientation="Vertical" BackgroundColor="#34495e">
+    <StackLayout Orientation="Horizontal">
+      <StackLayout Orientation="Vertical">
+        <Label Text="Tisch" FontSize="40" TextColor="White"/>
+        <Label Text="{Binding Table.IdTable}" x:Name="lblTableNumber" FontSize="50" TextColor="White"/>
+      </StackLayout>
+      <Button Text="Add" Command="{Binding AddCommand}" TextColor="Black" Margin="20" FontSize="50" BackgroundColor="White"></Button>
+    </StackLayout>
+    <ListView ItemsSource="{Binding OrderEntryProductWrappers}" x:Name="listOrders" SeparatorVisibility="Default" SeparatorColor="#a83036" RowHeight="100">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+
+            <Grid BackgroundColor="#a83036">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <StackLayout Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                <Label Text="{Binding product.Name}" FontAttributes="Bold" FontSize="30"/>
+                <Label Text="{Binding orderEntry.note}" FontSize="15"/>
+              </StackLayout>
+
+              <Button Text="-" CommandParameter="{Binding .}" Command="{Binding BindingContext.RemoveCommand, Source={x:Reference TableDetailOrderPage}}" TextColor="Black" Grid.Column="1" Grid.Row="0" BackgroundColor="White"></Button>
+
+            </Grid>
+
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
+</ContentPage>

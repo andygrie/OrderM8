@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrderM8_mvvm.TableDetailPay"
+             x:Name="TableDetailPayPage">
+  <StackLayout Orientation="Vertical" BackgroundColor="#34495e">
+    <StackLayout Orientation="Horizontal">
+      <StackLayout Orientation="Vertical" Margin="5">
+        <Label Text="Tisch"  FontSize="40" TextColor="White"/>
+        <Label Text="{Binding Table.IdTable}" x:Name="lblTableNumber" FontSize="30" TextColor="White"/>
+      </StackLayout>
+      <Button Command="{Binding BillClickedCommand}" Text="Bill" TextColor="Black" Margin="5" FontSize="30" BackgroundColor="White"></Button>
+      <StackLayout Orientation="Vertical" Margin="5">
+        <Label Text="Pos" FontSize="30" TextColor="White"></Label>
+        <Label Text="{Binding BillEntries.Count}" x:Name="lblOrderCount" FontSize="30" TextColor="White"></Label>
+      </StackLayout>
+    </StackLayout>
+    <ListView ItemsSource="{Binding OrderEntries}" x:Name="listOrders" RowHeight="100">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+
+            <Grid BackgroundColor="#a83036">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <StackLayout Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                <Label Text="{Binding product.Name}" FontAttributes="Bold" FontSize="30"/>
+                <Label Text="{Binding orderEntry.note}" FontSize="15"/>
+              </StackLayout>
+              <Button CommandParameter="{Binding .}" Command="{Binding BindingContext.OrderEntryAddedToBillCommand, Source={x:Reference TableDetailPayPage}}" TextColor="Black" Text="-" Grid.Column="1" Grid.Row="0" BackgroundColor="White"></Button>
+            </Grid>
+
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
+</ContentPage>

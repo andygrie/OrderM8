@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrderM8_mvvm.Login">
+  <Grid BackgroundColor="#34495e">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="3*"></RowDefinition>
+      <RowDefinition Height="1*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+    </Grid.RowDefinitions>
+
+    <Label Grid.Row="0" Text="Orderman Login" FontSize="40" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+
+
+    <Label Grid.Row="2" Text="Username" TextColor="White" FontSize="25" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="#a83036"></Label>
+    <Entry Text="{Binding Username}" Grid.Row="3" x:Name="EntryUsername" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" BackgroundColor="#95a5a6" Placeholder="enter username..." PlaceholderColor="White"></Entry>
+    <Label Grid.Row="4" Text="Password" TextColor="White" FontSize="25" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" BackgroundColor="#a83036"></Label>
+    <Entry Text="{Binding Password}" Grid.Row="5" IsPassword="True" x:Name="EntryPassword" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" BackgroundColor="#95a5a6" Placeholder="enter password..." PlaceholderColor="White"></Entry>
+
+    <Label Grid.Row="6" Text="{Binding Message}" HorizontalTextAlignment="Center" FontSize="30"></Label>
+    
+    <Button Grid.Row="7" x:Name="ButtonLogin" Command="{Binding LoginCommand}" Text="Log in" BackgroundColor="White" TextColor="Black" Margin="10"></Button>
+  </Grid>
+</ContentPage>

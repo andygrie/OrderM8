@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:bindablePicker="clr-namespace:JPC.BindablePicker;assembly=JPC.BindablePicker"
+             x:Class="OrderM8_mvvm.DetailBill"
+             x:Name="DetailBillPage">
+  <StackLayout Orientation="Vertical" BackgroundColor="#34495e">
+    <StackLayout Orientation="Horizontal">
+      <StackLayout Orientation="Vertical">
+        <Label Text="Tisch" TextColor="White" FontSize="40"/>
+        <Label Text="{Binding Table.IdTable}" x:Name="lblTableNumber" TextColor="White" FontSize="50"/>
+      </StackLayout>
+      <Button Command="{Binding PayClickedCommand}" Text="Pay" TextColor="Black" BackgroundColor="White" FontSize="30"></Button>
+      <Label Text="{Binding TotalPrice}" x:Name="lblPrice" TextColor="White" FontSize="40"></Label>
+    </StackLayout>
+
+    <ListView ItemsSource="{Binding DisplayPositions}" x:Name="listOrders" RowHeight="100">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <Grid BackgroundColor="#a83036">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <StackLayout Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                <Label Text="{Binding product.Name}" FontAttributes="Bold" FontSize="30"/>
+                <Label Text="{Binding orderEntry.note}" FontSize="15"/>
+              </StackLayout>
+              <Button Command="{Binding BindingContext.EntryRemovedCommand, Source={x:Reference DetailBillPage}}" CommandParameter="{Binding .}" TextColor="Black" Text="-" Grid.Row="0" Grid.Column="1" BackgroundColor="White"></Button>
+            </Grid>
+
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Coupon Essen" TextColor="White" FontSize="20"></Label>
+      <bindablePicker:BindablePicker ItemsSource="{Binding FoodCoupwnOptions}" SelectedItem="{Binding FoodCouponCount}" x:Name="couponFoodPicker" SelectedIndexChanged="OnCouponFoodPickerChanged" TextColor="White" WidthRequest="40">
+        <!--<Picker.Items>
+          <x:String>0</x:String>
+          <x:String>1</x:String>
+          <x:String>2</x:String>
+          <x:String>3</x:String>
+          <x:String>4</x:String>
+          <x:String>5</x:String>
+          <x:String>6</x:String>
+          <x:String>7</x:String>
+          <x:String>8</x:String>
+          <x:String>9</x:String>
+          <x:String>10</x:String>
+        </Picker.Items>-->
+      </bindablePicker:BindablePicker>
+    </StackLayout>
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Coupon Getränk" TextColor="White" FontSize="20"></Label>
+      <bindablePicker:BindablePicker ItemsSource="{Binding BeverageCoupwnOptions}" SelectedItem="{Binding BeverageCouponCount}" x:Name="couponBeveragePicker" SelectedIndexChanged="OnCouponBeveragePickerChanged" TextColor="White" WidthRequest="40">
+      </bindablePicker:BindablePicker>
+    </StackLayout>
+  </StackLayout>
+</ContentPage>

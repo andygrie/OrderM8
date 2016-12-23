@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:bindablePicker="clr-namespace:JPC.BindablePicker;assembly=JPC.BindablePicker"
+             x:Class="OrderM8_mvvm.AddOrderEntry">
+  <StackLayout Orientation="Vertical" BackgroundColor="#34495e">
+
+    <StackLayout Orientation="Horizontal">
+      <Label FontSize="50" TextColor="White">Neue Bestellung</Label>
+      <Button Command="{Binding AddCommand}" Text="Add" TextColor="Black" BackgroundColor="White"></Button>
+    </StackLayout>
+
+    <Label Text="{Binding Message}" x:Name="lblMessage" TextColor="White" FontSize="20" HorizontalTextAlignment="Center"></Label>
+
+    <Label Text="{Binding SelectedProduct.Name}" x:Name="lblSelectedProduct" TextColor="White" FontSize="25" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+    <Entry Text="{Binding Note}" Placeholder="Notiz" x:Name="entryOrderNote" TextColor="White"></Entry>
+
+    <bindablePicker:BindablePicker ItemsSource="{Binding ProductTypes}" SelectedItem="{Binding SelectedProductType}" x:Name="productTypePicker" SelectedIndexChanged="OnProductTypeChanged" TextColor="White">
+    </bindablePicker:BindablePicker>
+
+    <ScrollView  Orientation = "Vertical">
+      <Grid x:Name="productGrid"></Grid>
+    </ScrollView>
+  </StackLayout>
+</ContentPage>
