@@ -20,10 +20,10 @@ public class AuthResource {
     public Response getToken(
     		@FormParam("username") String username,
     		@FormParam("password") String password ) {
-    	System.out.println(username);
-    	System.out.println(password);
     	
     	TokenWrapper tokenWrapper = authService.getToken(username, password);
+    	System.out.println("User logged in: " + username);
+    	System.out.println("Token: " + tokenWrapper.getToken());
     	
     	return Response.status(Status.OK).entity(tokenWrapper).build();
     }

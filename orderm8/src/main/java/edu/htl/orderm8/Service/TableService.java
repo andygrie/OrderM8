@@ -40,9 +40,15 @@ public class TableService {
 		}
 	}
 	
-	public void insertTables(ArrayList<Table> tables) {
+	public List<Table> insertTables(ArrayList<Table> tables) {
 		try {
-			Database.getInstance().insertTables(tables);
+			ArrayList<Table> newTables = new ArrayList<Table>();
+			
+			for(Table table : tables) {
+				newTables.add(Database.getInstance().insertTable(table));
+			}
+			
+			return newTables;
 		} catch(SQLException exception)  {
 			if(exception.getErrorCode() == 1)
 				throw new ConflictException("");
@@ -62,6 +68,24 @@ public class TableService {
 			System.out.println(exception.getMessage());
 			
 			throw new InternalServerErrorException("");
+		}
+	}
+	
+	public void updateTables(List<Table> tables) {
+		try {
+			for(Table table : tables) {
+				if(Database.getInstance().getTable(table.getIdTable()) == null)
+					throw new DataNotFoundException("Table with id " + table.getIdTable() + " not found");
+			}
+			
+			for(Table table : tables) {
+				Database.getInstance().updateTable(table.getIdTable(), table);
+			}
+		} catch(SQLException exception) {
+			System.out.println(exception.getErrorCode());
+			System.out.println(exception.getMessage());
+			
+			throw new InternalServerErrorException("Database error");
 		}
 	}
 	

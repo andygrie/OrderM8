@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.InternalServerErrorException;
 
 import edu.htl.orderm8.Data.Database.Database;
+import edu.htl.orderm8.Data.Objects.BillWrapper;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
 import edu.htl.orderm8.Data.Objects.User;
 import edu.htl.orderm8.Exception.ConflictException;
@@ -41,6 +42,8 @@ public class OrderEntryService {
 		try {
 			return Database.getInstance().insertOrderEntry(pt);
 		} catch(SQLException exception)  {
+			System.out.println("Error - insertOrderEntry: " + exception.getMessage());
+			
 			if(exception.getErrorCode() == 1)
 				throw new ConflictException("");
 			else 
@@ -72,6 +75,23 @@ public class OrderEntryService {
 			System.out.println(exception.getErrorCode());
 			System.out.println(exception.getMessage());
 			throw new InternalServerErrorException();
+		}
+	}
+	
+	public void pay(long id, BillWrapper billWrapper) {
+		OrderEntry oe = Database.getInstance().getOrderEntry(id);
+		if(oe == null)
+			throw new DataNotFoundException("OrderEntry with id " + id + " not found");
+		
+		if(oe.getFkBill() != 0)
+			throw new InternalServerErrorException("OrderEntry already payed");
+		
+		try {
+			Database.getInstance().pay(id, billWrapper);
+		} catch(SQLException exception) {
+			System.out.println(exception.getErrorCode());
+			System.out.println(exception.getMessage());
+			throw new edu.htl.orderm8.Exception.InternalServerErrorException(exception.getMessage());
 		}
 	}
 }

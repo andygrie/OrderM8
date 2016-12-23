@@ -63,7 +63,7 @@ public class ProductTypeService {
 		} catch(SQLException exception) {
 			System.out.println(exception.getErrorCode());
 			System.out.println(exception.getMessage());
-			throw new InternalServerErrorException();
+			throw new InternalServerErrorException("Database error");
 		}
 	}
 }

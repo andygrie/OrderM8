@@ -67,6 +67,7 @@ CREATE TABLE OrderEntries (
 -- Test Data --
 INSERT INTO Users (idUser, username, password, utype) VALUES (0, 'org', 'org', 2);
 INSERT INTO Users (idUser, username, password, utype) VALUES (1, 'wat', 'wat', 1);
+INSERT INTO Users (idUser, username, password, utype) VALUES (3, 'bar', 'bar', 3);
 
 INSERT INTO Tables (idTable, sdoCoordinates) VALUES
 (
@@ -102,17 +103,17 @@ INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
 
 INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
 (
-  2, 0, 'Gösser 0.5', 3, 2000
+  2, 1, 'Gösser 0.5', 3, 2000
 );
 
 INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
 (
-  3, 0, 'Gösser 0.3', 2, 1500
+  3, 1, 'Gösser 0.3', 2, 1500
 );
 
 INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
 (
-  4, 0, 'Cola', 2.8, 800
+  4, 1, 'Cola', 2.8, 800
 );
 
 -- paid Orders
@@ -147,4 +148,4 @@ INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note
   3, 4, 2, 1, NULL, '', 0, 0
 );
 
-
+commit;

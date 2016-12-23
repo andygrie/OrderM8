@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Vector;
 
 import edu.htl.orderm8.Data.Database.OracleDatabase;
+import edu.htl.orderm8.Data.Objects.Bill;
+import edu.htl.orderm8.Data.Objects.BillWrapper;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
+import edu.htl.orderm8.Data.Objects.Table;
 import edu.htl.orderm8.Data.Objects.User;
 
 public class OrderEntryDao {
@@ -27,12 +30,15 @@ public class OrderEntryDao {
 	private static final String FIELD_COUPON = "COUPON";
 	
 	private static final String SQL_SELECT_ALL = "SELECT * FROM " + TB_NAME;
-	private static final String SQL_SELECT_ALL_OPEN = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0";
-	private static final String SQL_SELECT_ALL_OPEN_BY_TABLE = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0 AND " + FIELD_FKTABLE + "=?";
+	private static final String SQL_SELECT_ALL_OPEN = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0 AND (" + FIELD_FKBILL + " = 0 OR " + FIELD_FKBILL + " IS NULL)";
+	private static final String SQL_SELECT_ALL_OPEN_BY_TABLE = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0 AND (" + FIELD_FKBILL + " = 0 OR " + FIELD_FKBILL + " IS NULL) AND " + FIELD_FKTABLE + "=?";
+	private static final String SQL_SELECT_COUNT_OPEN_BY_TABLE = "SELECT COUNT(*) AS CNT FROM " + TB_NAME + " WHERE " + FIELD_FKUSER + "=? AND " + FIELD_CANCELLED + " = 0 AND (" + FIELD_FKBILL + " = 0 OR " + FIELD_FKBILL + " IS NULL) AND " + FIELD_FKTABLE + "=?";
 	private static final String SQL_SELECT_BY_ID = SQL_SELECT_ALL + " WHERE " + FIELD_IDORDERENTRY + " = ?";
+	private static final String SQL_SELECT_ALL_BY_BILL = SQL_SELECT_ALL + " WHERE " + FIELD_FKUSER + " = ? AND " + FIELD_FKBILL + " = ?";
 	private static final String SQL_INSERT = "INSERT INTO " + TB_NAME + " VALUES("+ SEQ_NAME +".NEXTVAL, ?, ?, ?, NULL, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE " + TB_NAME + " SET " + FIELD_FKPRODUCT + " =?, "+ FIELD_FKTABLE + " =?, "+ FIELD_FKUSER + " =?, "+ FIELD_FKBILL + " =?, "+ FIELD_NOTE + " =?, "+ FIELD_CANCELLED + " =?, " + FIELD_COUPON + " =? WHERE " + FIELD_IDORDERENTRY + " =?";
 	private static final String SQL_DELETE = "DELETE FROM " + TB_NAME + " WHERE " + FIELD_IDORDERENTRY + " =?";
+	private static final String SQL_PAY	= "UPDATE " + TB_NAME + " SET " + FIELD_FKBILL + " = ? WHERE " + FIELD_IDORDERENTRY + " = ?";
 	/*__________________________________________________________________*/
 
 	private static OrderEntry getOrderEntry(ResultSet rs) throws SQLException {
@@ -124,6 +130,48 @@ public class OrderEntryDao {
 		return lOrderEntry;		
 	}
 	
+	public static long getCountByTable(User user, long tableid) throws SQLException {
+		long cnt = 0;
+		
+		Connection conn = OracleDatabase.getConnection();
+		
+		PreparedStatement prepStmt = conn.prepareStatement(SQL_SELECT_COUNT_OPEN_BY_TABLE);
+		prepStmt.setLong(1, user.getIdUser());
+		prepStmt.setLong(2, tableid);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		if(rs.next()) 
+			cnt = rs.getLong("CNT");
+		
+		conn.close();
+		
+		return cnt;
+	}
+
+	public static List<OrderEntry> getOrderEntriesByBill(User user, Bill bill) {
+		List<OrderEntry> lOrderEntry = new ArrayList<OrderEntry>();
+		
+		try {
+			Connection conn = OracleDatabase.getConnection();
+			
+			PreparedStatement prepStmt = conn.prepareStatement(SQL_SELECT_ALL_BY_BILL);
+			prepStmt.setLong(1, user.getIdUser());
+			prepStmt.setLong(2, bill.getIdBill());
+			ResultSet rs = prepStmt.executeQuery();
+			
+			while (rs.next()) {
+				OrderEntry o = getOrderEntry(rs);
+				lOrderEntry.add(o);
+			}
+			
+			conn.close();
+		} catch(Exception e) {
+			System.out.println("exception: " + e.getMessage());
+		}
+		
+		return lOrderEntry;		
+	}
+	
 	public static OrderEntry getOrderEntry(long idOrderEntry) {
 		OrderEntry o = null;
 		
@@ -189,6 +237,19 @@ public class OrderEntryDao {
 		
 		PreparedStatement prepStmt = conn.prepareStatement(SQL_DELETE);
 		prepStmt.setLong(1, id);
+		prepStmt.execute();
+		
+		conn.commit();
+		conn.close();
+	}
+	
+	 /* Other */
+	public static void pay(long id, BillWrapper billWrapper) throws SQLException {
+		Connection conn = OracleDatabase.getConnection();
+		
+		PreparedStatement prepStmt= conn.prepareStatement(SQL_PAY);
+		prepStmt.setLong(1, billWrapper.getId());
+		prepStmt.setLong(2, id);
 		prepStmt.execute();
 		
 		conn.commit();

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.security.auth.login.LoginException;
-
 import edu.htl.orderm8.Data.Database.Database;
 import edu.htl.orderm8.Data.Objects.User;
 import edu.htl.orderm8.Exception.UnauthorizedException;
@@ -26,11 +24,10 @@ public final class Authenticator {
 	private final Map<String, User> authTokens = new HashMap();
 	
 	public Authenticator() {
-		//authTokens.put("f8asdf287-ad5ss-4b29-9366-2zabsd", "testuser");
 		try {
 			authTokens.put("org", Database.getInstance().findUser("org", "org"));
 			authTokens.put("wat", Database.getInstance().findUser("wat", "wat"));
-
+			authTokens.put("bar", Database.getInstance().findUser("bar", "bar"));
 		} catch (SQLException e) {
 			System.out.println("Authenticator(): " + e.getMessage());
 		}

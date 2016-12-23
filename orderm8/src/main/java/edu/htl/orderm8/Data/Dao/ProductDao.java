@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,6 +24,7 @@ public class ProductDao {
 	
 	private static final String SQL_SELECT_ALL = "SELECT * FROM " + TB_NAME;
 	private static final String SQL_SELECT_BY_ID = "SELECT * FROM " + TB_NAME + " WHERE " + FIELD_IDPRODUCT + " = ?";
+	private static final String SQL_SELECT_ALL_BY_PRODTYPE = SQL_SELECT_ALL + " WHERE " + FIELD_FKTYPE + " = ?";
 	private static final String SQL_INSERT = "INSERT INTO " + TB_NAME + " VALUES("+ SEQ_NAME +".NEXTVAL, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "UPDATE " + TB_NAME + " SET " + FIELD_FKTYPE + "=?, " + FIELD_NAME + "=?, " + FIELD_PRICE + "=?, " + FIELD_QUANTITY + "=?  WHERE " + FIELD_IDPRODUCT + " =?";
 	private static final String SQL_DELETE = "DELETE FROM " + TB_NAME + " WHERE " + FIELD_IDPRODUCT + "=?";
@@ -45,14 +47,15 @@ public class ProductDao {
 			return -1;
 	}
 	
-	public static List<Product> getProducts() {
+	public static List<Product> getProducts(long prodType) {
 		List<Product> lProduct = new Vector<Product>();
 		
 		try {
 			Connection conn = OracleDatabase.getConnection();
 			
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL);
+			PreparedStatement prepStmt = conn.prepareStatement(SQL_SELECT_ALL_BY_PRODTYPE);
+			prepStmt.setLong(1, prodType);
+			ResultSet rs = prepStmt.executeQuery();
 			
 			while (rs.next()) {
 				Product p = getProduct(rs);
@@ -64,6 +67,26 @@ public class ProductDao {
 			System.out.println("exception: " + e.getMessage());
 		}
 		
+		return lProduct;
+	}
+	
+	public static List<Product> getProducts() {
+		List<Product> lProduct = new ArrayList<Product>();
+		try {
+			Connection conn = OracleDatabase.getConnection();
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL);
+			
+			while (rs.next()) {
+				Product p = getProduct(rs);
+				lProduct.add(p);
+			}
+			
+			conn.close();			
+		} catch(Exception e) {
+			System.out.println("exception: " + e.getMessage());
+		}
 		return lProduct;
 	}
 	

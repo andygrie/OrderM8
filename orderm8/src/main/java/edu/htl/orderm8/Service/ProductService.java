@@ -28,6 +28,10 @@ public class ProductService {
 		return Database.getInstance().getProducts();
 	}
 	
+	public List<Product> getProducts(long prodType) {
+		return Database.getInstance().getProducts(prodType);
+	}
+	
 	public Product insertProduct(Product p) {
 		try {
 			return Database.getInstance().insertProduct(p);

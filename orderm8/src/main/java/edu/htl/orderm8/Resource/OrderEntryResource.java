@@ -2,11 +2,9 @@ package edu.htl.orderm8.Resource;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -19,11 +17,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
-import edu.htl.orderm8.Authentication.MySecurityContext;
 import edu.htl.orderm8.Authentication.Secured;
 import edu.htl.orderm8.Authentication.UserPrincipal;
+import edu.htl.orderm8.Data.Objects.BillWrapper;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
-import edu.htl.orderm8.Data.Objects.User;
 import edu.htl.orderm8.Service.OrderEntryService;
 
 @Path("orderentry")
@@ -51,7 +48,10 @@ public class OrderEntryResource {
 	@Secured
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addOrderEntry(OrderEntry oe) {
+    public Response addOrderEntry(@Context SecurityContext securityContext, OrderEntry oe) {
+    	UserPrincipal up = (UserPrincipal)securityContext.getUserPrincipal();
+    	oe.setFkUser(up.getUser().getIdUser());
+
     	oe = orderEntryService.insertOrderEntry(oe);
     	return Response.status(Status.CREATED).entity(oe).build();
     }
@@ -80,7 +80,7 @@ public class OrderEntryResource {
     @Path("/open")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrderEntriesOpen( @Context SecurityContext securityContext, @PathParam("idtable") long idtable) {
-		UserPrincipal up = (UserPrincipal)securityContext.getUserPrincipal();
+    	UserPrincipal up = (UserPrincipal)securityContext.getUserPrincipal();
 		
 		GenericEntity<List<OrderEntry>> entity = new GenericEntity<List<OrderEntry>>(orderEntryService.getOrderEntriesOpen(up.getUser())) {};
         return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
@@ -95,5 +95,15 @@ public class OrderEntryResource {
 		
 		GenericEntity<List<OrderEntry>> entity = new GenericEntity<List<OrderEntry>>(orderEntryService.getOrderEntriesOpenByTable(up.getUser(), idtable)) {};
         return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
+    }
+    
+    @PUT
+    @Secured
+    @Path("/pay/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response payOrderEntry(@PathParam("id") long id, BillWrapper billWrapper) {
+    	orderEntryService.pay(id, billWrapper);
+    	
+    	return Response.ok().build();
     }
 }

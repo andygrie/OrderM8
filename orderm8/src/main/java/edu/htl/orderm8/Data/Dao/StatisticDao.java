@@ -1,14 +1,11 @@
 package edu.htl.orderm8.Data.Dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 
 import edu.htl.orderm8.Data.Database.OracleDatabase;
-import edu.htl.orderm8.Data.Objects.Bill;
 import edu.htl.orderm8.Data.Objects.Statistic;
 
 public class StatisticDao {
@@ -20,6 +17,7 @@ public class StatisticDao {
 	private static final String FIELD_CNTTABLES = "CNTTABLES";
 	private static final String FIELD_CNTORDERENTRIES = "CNTORDERENTRIES";
 	private static final String FIELD_CNTPRODUCTTYPES = "CNTPRODUCTTYPES";
+	private static final String FIELD_CNTPRODUCTS = "CNTPRODUCTS";
 	private static final String FIELD_OPEN_BILLS = "OPEN_BILLS";
 	private static final String FIELD_PROFIT = "PROFIT";
 	/*__________________________________________________________________*/
@@ -30,10 +28,12 @@ public class StatisticDao {
 		long cntTables = rs.getLong(FIELD_CNTTABLES);
 		long cntOrderEntries = rs.getLong(FIELD_CNTORDERENTRIES);
 		long cntProductTypes = rs.getLong(FIELD_CNTPRODUCTTYPES);
+		long cntProducts = rs.getLong(FIELD_CNTPRODUCTS);
 		long open_bills= rs.getLong(FIELD_OPEN_BILLS);
 		long profit = rs.getLong(FIELD_PROFIT);
+		
 
-		return new Statistic(cntBills, cntUsers, cntTables, cntOrderEntries, cntProductTypes, open_bills, profit);
+		return new Statistic(cntBills, cntUsers, cntTables, cntOrderEntries, cntProductTypes, cntProducts, open_bills, profit);
 	}
 	
 	public static Statistic getStatistic() {

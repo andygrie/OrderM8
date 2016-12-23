@@ -9,6 +9,7 @@ public class Statistic {
 	private long cntTables;
 	private long cntOrderEntries;
 	private long cntProductTypes;
+	private long cntProducts;
 	private long open_bills;
 	private long profit;
 	
@@ -17,13 +18,14 @@ public class Statistic {
 	}
 	
 	public Statistic(long cntBills, long cntUsers, long cntTables, long cntOrderEntries, long cntProductTypes,
-			long open_bills, long profit) {
+			long cntProducts, long open_bills, long profit) {
 		super();
 		this.cntBills = cntBills;
 		this.cntUsers = cntUsers;
 		this.cntTables = cntTables;
 		this.cntOrderEntries = cntOrderEntries;
 		this.cntProductTypes = cntProductTypes;
+		this.cntProducts = cntProducts;
 		this.open_bills = open_bills;
 		this.profit = profit;
 	}
@@ -84,10 +86,18 @@ public class Statistic {
 		this.profit = profit;
 	}
 
+	public long getCntProducts() {
+		return cntProducts;
+	}
+
+	public void setCntProducts(long cntProducts) {
+		this.cntProducts = cntProducts;
+	}
+
 	@Override
 	public String toString() {
 		return "Statistic [cntBills=" + cntBills + ", cntUsers=" + cntUsers + ", cntTables=" + cntTables
-				+ ", cntOrderEntries=" + cntOrderEntries + ", cntProductTypes=" + cntProductTypes + ", open_bills="
-				+ open_bills + ", profit=" + profit + "]";
+				+ ", cntOrderEntries=" + cntOrderEntries + ", cntProductTypes=" + cntProductTypes + ", cntProducts="
+				+ cntProducts + ", open_bills=" + open_bills + ", profit=" + profit + "]";
 	}
 }

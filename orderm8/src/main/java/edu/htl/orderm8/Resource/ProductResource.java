@@ -46,7 +46,7 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductsByProductType(@PathParam("prodtype") long prodtype) {
     	System.out.println(prodtype);
-		GenericEntity<List<Product>> entity = new GenericEntity<List<Product>>(productService.getProducts()) {};
+		GenericEntity<List<Product>> entity = new GenericEntity<List<Product>>(productService.getProducts(prodtype)) {};
         return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
     }
 

@@ -3,7 +3,6 @@ package edu.htl.orderm8.Data.Database;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import edu.htl.orderm8.Data.Dao.BillDao;
 import edu.htl.orderm8.Data.Dao.OrderEntryDao;
@@ -13,11 +12,16 @@ import edu.htl.orderm8.Data.Dao.StatisticDao;
 import edu.htl.orderm8.Data.Dao.TableDao;
 import edu.htl.orderm8.Data.Dao.UserDao;
 import edu.htl.orderm8.Data.Objects.Bill;
+import edu.htl.orderm8.Data.Objects.BillOrderEntriesWrapper;
+import edu.htl.orderm8.Data.Objects.BillWrapper;
 import edu.htl.orderm8.Data.Objects.OrderEntry;
+import edu.htl.orderm8.Data.Objects.OrderEntryProductWrapper;
 import edu.htl.orderm8.Data.Objects.Product;
 import edu.htl.orderm8.Data.Objects.ProductType;
 import edu.htl.orderm8.Data.Objects.Statistic;
 import edu.htl.orderm8.Data.Objects.Table;
+import edu.htl.orderm8.Data.Objects.TableOrderWrapper;
+import edu.htl.orderm8.Data.Objects.TableStatusWrapper;
 import edu.htl.orderm8.Data.Objects.User;
 
 public class Database {
@@ -57,6 +61,10 @@ public class Database {
 	/*                	Product                	  */
 	public List<Product> getProducts() {
 		return ProductDao.getProducts();
+	}
+	
+	public List<Product> getProducts(long prodType) {
+		return ProductDao.getProducts(prodType);
 	}
 	
 	public Product getProduct(long idProduct) {
@@ -151,6 +159,10 @@ public class Database {
 	public void deleteOrderEntry(long id) throws SQLException {
 		OrderEntryDao.delteOrderEntry(id);
 	}
+	
+	public void pay(long id, BillWrapper billWrapper) throws SQLException {
+		OrderEntryDao.pay(id, billWrapper);
+	}
 	/*--------------------------------------------*/
 	
 	
@@ -183,6 +195,69 @@ public class Database {
 	/*                 Statistic                   */
 	public Statistic getStatistic() throws SQLException {
 		return StatisticDao.getStatistic();
+	}
+	/*--------------------------------------------*/
+	
+	/*					Other					  */
+	public List<TableOrderWrapper> getTableOrderWrappers(User user) throws SQLException {
+		List<TableOrderWrapper> tow = new ArrayList<>();
+		
+		List<Table> tables = TableDao.getTables();
+		for(Table table : tables) {
+			ArrayList<OrderEntry> oes = (ArrayList<OrderEntry>)OrderEntryDao.getOrderEntriesOpenByTable(user, table.getIdTable());
+			tow.add(new TableOrderWrapper(table, oes));
+		}
+		
+		return tow;
+	}
+	
+	public List<OrderEntryProductWrapper> getOrderEntryProductWrappers(User user) throws SQLException {
+		List<OrderEntryProductWrapper> oepw = new ArrayList<>();
+		
+		List<OrderEntry> oes = OrderEntryDao.getOrderEntriesOpen(user);
+		for(OrderEntry oe : oes) {
+			Product prod = ProductDao.getProduct(oe.getFkProduct());
+			oepw.add(new OrderEntryProductWrapper(oe, prod));
+		}
+		
+		return oepw;
+	}
+	
+	public List<OrderEntryProductWrapper> getOrderEntryProductWrappersByTable(User user, long tableid) throws SQLException {
+		List<OrderEntryProductWrapper> oepw = new ArrayList<>();
+		
+		List<OrderEntry> oes = OrderEntryDao.getOrderEntriesOpenByTable(user, tableid);
+		for(OrderEntry oe : oes) {
+			Product prod = ProductDao.getProduct(oe.getFkProduct());
+			oepw.add(new OrderEntryProductWrapper(oe, prod));
+		}
+		
+		return oepw;
+	}
+	 
+	public List<BillOrderEntriesWrapper> getBillOrderEntriesWrappers(User user) throws SQLException {
+		List<BillOrderEntriesWrapper> boew = new ArrayList<>();
+		
+		List<Bill> bills = BillDao.getBills();
+		for(Bill bill : bills) {
+			ArrayList<OrderEntry> oes = (ArrayList<OrderEntry>)OrderEntryDao.getOrderEntriesByBill(user, bill);
+			if(oes.size() > 0) {
+				boew.add(new BillOrderEntriesWrapper(bill, oes));
+			}
+		}
+		
+		return boew;
+	}
+	
+	public List<TableStatusWrapper> getTableStatusWrappers(User user) throws SQLException {
+		List<TableStatusWrapper> tsw = new ArrayList<>();
+		List<Table> tables = TableDao.getTables();
+		for(Table table: tables) {
+			long cnt = OrderEntryDao.getCountByTable(user, table.getIdTable());
+			tsw.add(new TableStatusWrapper(table, cnt > 0));
+		}
+		
+		return tsw;
 	}
 	/*--------------------------------------------*/
 }

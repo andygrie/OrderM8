@@ -1,5 +1,6 @@
 package edu.htl.orderm8.Resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -47,6 +48,27 @@ public class TableResource {
     public Response addTable(Table t) {
     	t = tableService.insertTable(t);
     	return Response.status(Status.CREATED).entity(t).build();
+    }
+    
+    @POST
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/multiple")
+    public Response addTables(ArrayList<Table> tables) {
+    	GenericEntity<List<Table>> entity = new GenericEntity<List<Table>>(tableService.insertTables(tables)) {};
+    	
+    	return Response.status(Status.CREATED).entity(entity).build();
+    }
+    
+    @PUT
+    @Secured
+    @Path("/multiple")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateTables(ArrayList<Table> tables) {
+    	tableService.updateTables(tables);
+    	
+    	return Response.status(Status.NO_CONTENT).build();
     }
     
     @PUT
