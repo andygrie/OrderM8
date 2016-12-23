@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XamOrderM8_Barman"
+             x:Class="XamOrderM8_Barman.MainPage">
+  <Grid BackgroundColor="#34495e">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*"></RowDefinition>
+      <RowDefinition Height="2*"></RowDefinition>
+      <RowDefinition Height="7*"></RowDefinition>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+
+    <Label Grid.Column="0" Grid.Row="0" TextColor="White" FontSize="25" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">Barman - App</Label>
+
+    <Grid Grid.Row="1" Grid.Column="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="3*"></RowDefinition>
+        <RowDefinition Height="7*"></RowDefinition>
+      </Grid.RowDefinitions>
+        
+      <Label x:Name="lblLastUpdate" TextColor="Gray" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+        
+      <Grid Grid.Row="1" Grid.Column="0" BackgroundColor="#2c3e50">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*"></ColumnDefinition>
+        <ColumnDefinition Width="3*"></ColumnDefinition>
+        <ColumnDefinition Width="1*"></ColumnDefinition>
+        <ColumnDefinition Width="5*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+    
+      <Label Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="15" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Margin="10, 0, 0, 0">ID</Label>
+      <Label Grid.Column="1" TextColor="White" FontAttributes="Bold" FontSize="15" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">PID</Label>
+      <Label Grid.Column="2" TextColor="White" FontAttributes="Bold" FontSize="15" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">TID</Label>
+      <Label Grid.Column="3" TextColor="White" FontAttributes="Bold" FontSize="15" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">Note</Label>
+    </Grid>
+    </Grid>
+      
+    
+      
+    <ScrollView Grid.Column="0" Grid.Row="2" Margin="10, 0, 10, 10">
+      <ListView x:Name="listOrders" SeparatorVisibility="Default" SeparatorColor="White" RowHeight="50">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+
+              <Grid BackgroundColor="#a83036">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="3*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="{Binding orderEntry.idOrderEntry}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                <Label Grid.Column="1" Text="{Binding product.name}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                <Label Grid.Column="3" Text="{Binding orderEntry.note}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                <Label Grid.Column="2" Text="{Binding orderEntry.fkTable}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+
+              </Grid>
+
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </ScrollView>
+
+  </Grid>
+  
+</ContentPage>
