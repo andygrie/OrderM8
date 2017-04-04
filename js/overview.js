@@ -73,6 +73,10 @@ angular.module('overview', [])
                        _dataPoints.push({x: $scope.statistic.statsHour[i].hour, y: $scope.statistic.statsHour[i].profit});
                        helper++;
                     }
+                    while(helper < 24){
+                            _dataPoints.push({x: helper, y: 0});
+                            helper++;
+                        }
                     chartProfitPerHour = new CanvasJS.Chart("chartProfitPerHour",
                     {
                         title:{
@@ -81,7 +85,8 @@ angular.module('overview', [])
                             text: "Profit/Hour",
                         },
                         data: [{
-                            type: "line",
+                            type: "area",
+                            markerType: "none",
                             dataPoints: _dataPoints
                         }],
                         axisX:{
@@ -196,7 +201,7 @@ angular.module('overview', [])
                         title:{
                             margin: 20,
                             fontSize: 50,
-                            text: "Profit/Table",
+                            text: "Stock",
                         },
                         data: [{
                             dataPoints: _dataPoints

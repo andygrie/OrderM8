@@ -32,10 +32,10 @@
             <button type="button" class="btn btn-danger diagramButton" ng-click="chartHelp = 'profitPerTable'">Profit/Table</button>
             <button type="button" class="btn btn-danger diagramButton" ng-click="chartHelp = 'stock'">Stock</button>
         </div>
-        <div id="chartProfitPerHour" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'profitPerHour'"></div>
-        <div id="chartProfitPerUser" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'profitPerWaiter'"></div>
-        <div id="chartProfitPerTable" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'profitPerTable'"></div>
-        <div id="chartStock" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'stock'"></div>
+        <div id="chartProfitPerHour" ng-hide="chartHelp != 'profitPerHour'"></div>
+        <div id="chartProfitPerUser" ng-hide="chartHelp != 'profitPerWaiter'"></div>
+        <div id="chartProfitPerTable" ng-hide="chartHelp != 'profitPerTable'"></div>
+        <div id="chartStock" ng-hide="chartHelp != 'stock'"></div>
 
     </div>
 </body>

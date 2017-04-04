@@ -2,6 +2,7 @@ angular.module('organiser', [])
 
 .controller('organiserCtrl', ['$scope', 'userService', '$window', '$location',  function($scope, userService, $window, $location){
     if(!($window.localStorage.getItem('token')))
+                $scope.title = 'Organiser';
                 $scope.updateDeleteMessage = 'loading...';
                 var promiseGet = userService.promiseGetUsers();
                 promiseGet.then(function(response){
