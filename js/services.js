@@ -237,7 +237,7 @@ angular.module('services', [])
     }
 }])
 
-.factory('userService', ['$http', '$q', 'URL', '$window', function($http, $q, URL, $window){
+.factory('userService', ['$http', '$q', 'URL', '$window', '$rootScope', function($http, $q, URL, $window, $rootScope){
     var users = [];
     var service = {
         getUsers : getUsers,
@@ -344,7 +344,6 @@ angular.module('services', [])
         return index;
     }
     function promiseLogin(credentials){
-        console.log(credentials);
         return $q(function(resolve, reject){
             var req = {
                  method: 'POST',
@@ -357,6 +356,7 @@ angular.module('services', [])
             $http(req).then(
             function successCallback(response){
                 $window.localStorage.setItem('token', response.data.token);
+                $rootScope.token = response.data.token;
                 console.log($window.localStorage.getItem('token'));
                 resolve("successfully");
             }, function errorCallback(response){

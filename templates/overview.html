@@ -7,21 +7,36 @@
 </head>
 <body>
     <h1>{{title}}</h1>
-    <p class="overviewHeading"><i class="fa fa-money" aria-hidden="true"></i>Finances</p>
-    <ul>
-        <li class="overviewlistitem">Bills stored: {{statistic.cntBills}}</li>
-        <li class="overviewlistitem">Open Bills: {{statistic.open_bills}}</li>
-        <li class="overviewlistitem">Profit: €{{statistic.profit}}</li>
-    </ul>
-    <p class="overviewHeading"><i class="fa fa-cutlery" aria-hidden="true"></i>Products</p>
-    <ul>
-        <li class="overviewlistitem">Products stored: {{statistic.cntProducts}}</li>
-        <li class="overviewlistitem">Product Types stored: {{statistic.cntProductTypes}}</li>
-    </ul>
-    <p class="overviewHeading"><i class="fa fa-list" aria-hidden="true"></i>Miscellaneous</p>
-    <ul>
-    <li class="overviewlistitem">Tables stored: {{statistic.cntTables}}</li>
-    <li class="overviewlistitem">Users stored: {{statistic.cntUsers}}</li>
-    </ul>
+    <div id="finances">
+        <p class="overviewHeading"><i class="fa fa-money" aria-hidden="true"></i>Finances</p>
+        <ul>
+            <li class="overviewlistitem">Bills stored: {{statistic.cntBills}}</li>
+            <li class="overviewlistitem">Open Bills: {{statistic.open_bills}}</li>
+            <li class="overviewlistitem">Profit: €{{statistic.profit}}</li>
+        </ul>
+        <p class="overviewHeading"><i class="fa fa-cutlery" aria-hidden="true"></i>Products</p>
+        <ul>
+            <li class="overviewlistitem">Products stored: {{statistic.cntProducts}}</li>
+            <li class="overviewlistitem">Product Types stored: {{statistic.cntProductTypes}}</li>
+        </ul>
+        <p class="overviewHeading"><i class="fa fa-list" aria-hidden="true"></i>Miscellaneous</p>
+        <ul>
+            <li class="overviewlistitem">Tables stored: {{statistic.cntTables}}</li>
+            <li class="overviewlistitem">Users stored: {{statistic.cntUsers}}</li>
+        </ul>
+    </div>
+    <div id="diagrams">
+        <div id="diagramButtons">
+            <button type="button" class="btn btn-danger diagramButton" ng-click="chartHelp = 'profitPerHour'">Profit/Hour</button>
+            <button type="button" class="btn btn-danger diagramButton" ng-click="chartHelp = 'profitPerWaiter'">Profit/Waiter</button>
+            <button type="button" class="btn btn-danger diagramButton" ng-click="chartHelp = 'profitPerTable'">Profit/Table</button>
+            <button type="button" class="btn btn-danger diagramButton" ng-click="chartHelp = 'stock'">Stock</button>
+        </div>
+        <div id="chartProfitPerHour" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'profitPerHour'"></div>
+        <div id="chartProfitPerUser" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'profitPerWaiter'"></div>
+        <div id="chartProfitPerTable" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'profitPerTable'"></div>
+        <div id="chartStock" style="height: 500px; width: 100%;" ng-hide="chartHelp != 'stock'"></div>
+
+    </div>
 </body>
 </html>

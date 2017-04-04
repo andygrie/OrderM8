@@ -23,8 +23,10 @@ app.controller('ctrl', ['$scope', '$window', '$location',
                             }
                         }]);
 
-app.constant('URL', 'http://192.168.193.235:8085/orderm8/api');
+app.constant('URL', 'http://178.114.190.139:8085/orderm8/api');
 app.config(function ($routeProvider) {
+
+
     $routeProvider
         .when('/waiterView', {
             templateUrl: 'templates/waiter.html',
@@ -58,5 +60,17 @@ app.config(function ($routeProvider) {
             templateUrl: 'templates/login.html',
             controller: 'loginCtrl'
         })
-        .otherwise('/');
-});
+        .otherwise('/loginView');
+}).run( function($rootScope, $location) {
+
+    // register listener to watch route changes
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+      if ($rootScope.token == null ) {
+        if (next.templateUrl == "templates/login.html" ) {
+          // already going to #login, no redirect needed
+        } else {
+          $location.path( "/loginView" );
+        }
+      }         
+    });
+ });

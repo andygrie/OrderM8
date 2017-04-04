@@ -83,17 +83,18 @@ angular.module('spatial', [])
                     if(isMouseIsInTableArea((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseActions.moveTable){
                         canvas.style.cursor = 'move';
                     }
-                    else if(isMouseInResizeNPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseMode.resizeN)
+                    else if(isMouseInResizeNPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseActions.resizeN)
                         canvas.style.cursor = 'n-resize';
-                    else if(isMouseInResizeSPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseMode.resizeS)
+                    else if(isMouseInResizeSPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseActions.resizeS)
                         canvas.style.cursor = 's-resize';
-                    else if(isMouseInResizeEPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseMode.resizeE)
+                    else if(isMouseInResizeEPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseActions.resizeE)
                         canvas.style.cursor = 'e-resize';
-                    else if(isMouseInResizeWPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseMode.resizeW)
+                    else if(isMouseInResizeWPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor) && mouseMode == mouseActions.none || mouseMode == mouseActions.resizeW)
                         canvas.style.cursor = 'w-resize';
                     else
                         canvas.style.cursor = 'default';
 
+                    console.log(isMouseInResizeNPosition((e.clientX - rect.left) / faktor, (e.clientY - rect.top) / faktor));
                     checkIntersection();
 
                     if((lastX != 0 || lastY != 0) && mouseMode != mouseActions.none){
@@ -313,7 +314,7 @@ angular.module('spatial', [])
                     {
                         if(x > tables[i].xLL && 
                         x < tables[i].xUR && 
-                        y < parseInt(context.canvas.height) / faktor - parseInt(tables[i].yUR) * faktor && 
+                        y < parseInt(context.canvas.height) / faktor - parseInt(tables[i].yUR) && 
                         y > parseInt(context.canvas.height) / faktor - parseInt(tables[i].yUR) - 5 / faktor){
                             retVal = true;
                         }

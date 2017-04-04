@@ -4,7 +4,7 @@ angular.module('login', [])
     $scope.logIn = function(){
         var promiseGet = userService.promiseLogin($scope.credentials);
         promiseGet.then(function(response){
-            $location.path('/login')
+            $location.path('/overviewView')
         }, function(response){
            alert('login failed');
         })

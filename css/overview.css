@@ -1,8 +1,24 @@
 .overviewHeading{
-    font-size: 60px;
+    font-size: 45px;
 }
 
 .overviewlistitem{
-    font-size: 50px;
+    font-size: 35px;
     list-style: none;
+}
+
+#finances{
+    width: 50%;
+    float: left;
+}
+#diagrams{
+    width: 50%;
+    float: right;
+}
+.diagramButton{
+    margin-left: 5px;
+}
+#diagramButtons{
+    display: table;
+    margin: auto;
 }
