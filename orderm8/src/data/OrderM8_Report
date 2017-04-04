@@ -28,7 +28,7 @@ PERFORM printOrders USING lk_wat lk_prod lk_date.
 
 *__________Prints All Orders__________
 FORM printOrders USING lk_wat lk_prod lk_date .
-  DATA: wa_order TYPE zorderm8_order, sum_profit type int4.
+  DATA: wa_order TYPE zorderm8_order, sum_profit type ZDE_PROFIT.
 
   WRITE: 'Waiter:', waiter.
   Write:/'Product:', product.
@@ -37,49 +37,40 @@ FORM printOrders USING lk_wat lk_prod lk_date .
 
   IF lk_wat = 'X'.
     SELECT * FROM zorderm8_order INTO wa_order where waiter like waiter and product like product order by waiter.
-      WRITE: /(10) wa_order-id_order,
-              (15) wa_order-orderdate,
-              (25) wa_order-WAITER,
-              wa_order-product,
-                   wa_order-profit COLOR COL_GROUP INTENSIFIED ON,
-                   wa_order-currkey,SYM_LEFT_HAND AS SYMBOL.
-
-      IF wa_order-orderinfo <> ''.
-        FORMAT INTENSIFIED COLOR 2.
-        WRITE: /'               Additional Info: ', wa_order-orderinfo.
-        FORMAT INTENSIFIED COLOR off.
-      ENDIF.
+      PERFORM PrintOrder USING wa_order.
     ENDSELECT.
   ENDIF.
 
   IF lk_prod = 'X'.
     SELECT * FROM zorderm8_order INTO wa_order where waiter like waiter and product like product order by product.
-
-    WRITE: /(10) wa_order-id_order,
-            (15) wa_order-orderdate,
-            (25) wa_order-WAITER,
-            wa_order-product,
-            wa_order-orderinfo,
-                 wa_order-profit COLOR COL_GROUP INTENSIFIED ON,
-                 wa_order-currkey,SYM_LEFT_HAND AS SYMBOL.
+      PERFORM PrintOrder USING wa_order.
     ENDSELECT.
   ENDIF.
 
   IF lk_date = 'X'.
     SELECT * FROM zorderm8_order INTO wa_order where waiter like waiter and product like product order by orderdate.
-
-    WRITE: /(10) wa_order-id_order,
-            (15) wa_order-orderdate,
-            (25) wa_order-WAITER,
-            wa_order-product,
-            wa_order-orderinfo,
-                 wa_order-profit COLOR COL_GROUP INTENSIFIED ON,
-                 wa_order-currkey,SYM_LEFT_HAND AS SYMBOL.
+      PERFORM PrintOrder USING wa_order.
     ENDSELECT.
   ENDIF.
 
   SELECT sum( profit ) into sum_profit from zorderm8_order where waiter like waiter and product like product.
   SKIP 2.
   FORMAT INTENSIFIED COLOR 5.
-  Write: 'Total profit: ', sum_profit.
+  Write: 'Total profit: ', sum_profit, ' EUR'.
 ENDFORM.                    " printOrders
+
+
+FORM PrintOrder  USING WA_ORDER TYPE zorderm8_order.
+    WRITE: /(10) wa_order-id_order,
+            (15) wa_order-orderdate,
+            (25) wa_order-WAITER,
+            wa_order-product,
+                 wa_order-profit COLOR COL_GROUP INTENSIFIED ON,
+                 wa_order-currkey,SYM_LEFT_HAND AS SYMBOL.
+
+    IF wa_order-orderinfo <> ''.
+      FORMAT INTENSIFIED COLOR 2.
+      WRITE: /'               Additional Info: ', wa_order-orderinfo.
+      FORMAT INTENSIFIED COLOR off.
+    ENDIF.
+ENDFORM.                    " PrintOrder
