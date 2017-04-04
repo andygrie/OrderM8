@@ -15,9 +15,7 @@ public class StatisticService {
 	public Statistic getStatistic () {
 		try {
 			return Database.getInstance().getStatistic();
-		} catch(SQLException exception) {
-			System.out.println(exception.getErrorCode());
-			System.out.println(exception.getMessage());
+		} catch(Exception exception) {
 			throw new javax.ws.rs.InternalServerErrorException("database error");
 		}
 	}

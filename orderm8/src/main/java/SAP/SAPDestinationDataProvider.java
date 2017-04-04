@@ -62,6 +62,7 @@ public class SAPDestinationDataProvider implements DestinationDataProvider {
         connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, 	hostname);
         connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR,  	SAPDatabase.SAP_SYSNR);
         connectProperties.setProperty(DestinationDataProvider.JCO_USER, 	SAPDatabase.SAP_USER);
+        connectProperties.setProperty(DestinationDataProvider.JCO_CLIENT,   SAPDatabase.SAP_CLIENT);
         connectProperties.setProperty(DestinationDataProvider.JCO_PASSWD, 	SAPDatabase.SAP_PASSWD);
         connectProperties.setProperty(DestinationDataProvider.JCO_LANG,   	SAPDatabase.SAP_LANG);
         changeProperties(destName, connectProperties);

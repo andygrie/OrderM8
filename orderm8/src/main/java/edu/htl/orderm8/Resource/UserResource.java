@@ -15,7 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import SAP.SAPConnection;
 import edu.htl.orderm8.Authentication.Secured;
+import edu.htl.orderm8.Data.Database.SAPDatabase;
 import edu.htl.orderm8.Data.Objects.User;
 import edu.htl.orderm8.Service.UserService;
 
@@ -26,7 +28,7 @@ public class UserResource {
 	@GET
 	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsers() {
+	public Response getUsers() throws Exception {
 		GenericEntity<List<User>> entity = new GenericEntity<List<User>>(userService.getUsers()) {};
         return Response.ok(entity, MediaType.APPLICATION_JSON_TYPE).build();
 	}

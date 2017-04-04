@@ -1,5 +1,7 @@
 package edu.htl.orderm8.Data.Objects;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -12,6 +14,9 @@ public class Statistic {
 	private long cntProducts;
 	private long open_bills;
 	private long profit;
+	private ArrayList<StatsPerHour> statsHour = new ArrayList<>();
+	private ArrayList<StatsPerTable> statsTable = new ArrayList<>();
+	private ArrayList<StatsPerUser> statsUser = new ArrayList<>();
 	
 	public Statistic() {
 		
@@ -92,6 +97,30 @@ public class Statistic {
 
 	public void setCntProducts(long cntProducts) {
 		this.cntProducts = cntProducts;
+	}
+
+	public ArrayList<StatsPerHour> getStatsHour() {
+		return statsHour;
+	}
+
+	public void setStatsHour(ArrayList<StatsPerHour> statsHour) {
+		this.statsHour = statsHour;
+	}
+
+	public ArrayList<StatsPerTable> getStatsTable() {
+		return statsTable;
+	}
+
+	public void setStatsTable(ArrayList<StatsPerTable> statsTable) {
+		this.statsTable = statsTable;
+	}
+
+	public ArrayList<StatsPerUser> getStatsUser() {
+		return statsUser;
+	}
+
+	public void setStatsUser(ArrayList<StatsPerUser> statsUser) {
+		this.statsUser = statsUser;
 	}
 
 	@Override

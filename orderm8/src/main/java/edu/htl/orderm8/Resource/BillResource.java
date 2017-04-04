@@ -36,6 +36,7 @@ public class BillResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Bill getBill(@PathParam("id") long id) {
     	return billService.getBill(id);
+    	
     }
     
     @POST

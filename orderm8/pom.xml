@@ -61,6 +61,7 @@
         	<artifactId>cdi-api</artifactId>
         	<version>1.2</version>
         </dependency>
+      
     </dependencies>
     <properties>
         <jersey.version>2.23.2</jersey.version>

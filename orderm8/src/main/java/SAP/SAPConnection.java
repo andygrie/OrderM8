@@ -12,19 +12,27 @@ public class SAPConnection {
 	private String namedestination	= "ABAP_HTL";
 	private String hostname = "127.0.0.1";
 	
-	public SAPConnection(String namedestination, String hostname) {
+	public SAPConnection(String namedestination, String hostname) throws Exception {
 		this.namedestination = namedestination;
 		this.hostname = hostname;
 	}
 	
 	public void createConnection() throws Exception {
 		sapProvider = new SAPDestinationDataProvider();
-		Environment.registerDestinationDataProvider(sapProvider);
+		this.deleteConnection();
+		
+		if(!Environment.isDestinationDataProviderRegistered()) {
+			Environment.registerDestinationDataProvider(sapProvider);
+		}
 		sapProvider.setDestinationProperties(namedestination, hostname);
 	}
 	
-    public void deleteConnection() throws Exception{
-        com.sap.conn.jco.ext.Environment.unregisterDestinationDataProvider(sapProvider);
+    public void deleteConnection(){
+    	try {
+    		com.sap.conn.jco.ext.Environment.unregisterDestinationDataProvider(sapProvider);
+    	} catch (Exception ex) {
+    		System.out.println("deleteConnection - Exception: " + ex.getMessage());
+    	}
     }
     
     public JCoFunction getFunction(String nameOfFunction) throws Exception {
@@ -37,5 +45,10 @@ public class SAPConnection {
         }
         
         return ft.getFunction();
+    }
+    
+    public void executeFunction(JCoFunction function) throws Exception {
+    	JCoDestination sapDest = JCoDestinationManager.getDestination(namedestination);
+    	function.execute(sapDest);
     }
 }

@@ -193,7 +193,7 @@ public class Database {
 	/*--------------------------------------------*/
 	
 	/*                 Statistic                   */
-	public Statistic getStatistic() throws SQLException {
+	public Statistic getStatistic() throws Exception {
 		return StatisticDao.getStatistic();
 	}
 	/*--------------------------------------------*/

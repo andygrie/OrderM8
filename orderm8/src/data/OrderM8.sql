@@ -119,12 +119,17 @@ INSERT INTO Products (idProduct, fkType, name, price, quantity) VALUES
 -- paid Orders
 INSERT INTO Bills (idBill, billDate) VALUES
 (
-  0, SYSDATE
+  0, SYSTIMESTAMP
 );
 
 INSERT INTO Bills (idBill, billDate) VALUES
 (
-  1, SYSDATE
+  1, SYSTIMESTAMP
+);
+
+INSERT INTO Bills (idBill, billDate) VALUES
+(
+  2, SYSTIMESTAMP
 );
 
 INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
@@ -148,4 +153,12 @@ INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note
   3, 4, 2, 1, NULL, '', 0, 0
 );
 
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
+(
+  4, 1, 2, 1, 2, 'xcvb', 0, 0
+);
+INSERT INTO OrderEntries (idOrderEntry, fkProduct, fkTable, fkUser, fkBill, note, cancelled, coupon) VALUES
+(
+  5, 2, 2, 0, 2, 'xxxx', 0, 0
+);
 commit;
